@@ -23,7 +23,7 @@ export default function TestimonialsPage() {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
 
   useEffect(() => {
-    fetch(`${SB_URL}/testimonials?approved=eq.true&order=created_at.desc`, { headers: SB_HEADERS })
+    fetch(`${SB_URL}/testimonials?order=created_at.desc`, { headers: SB_HEADERS })
       .then((r) => r.json())
       .then((data) => Array.isArray(data) && setItems(data))
       .catch(() => {})
