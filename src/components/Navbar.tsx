@@ -3,20 +3,22 @@ import { Link, useLocation } from "wouter";
 import { Menu, X } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-const navLinks = [
-  { key: "nav.home", href: "/#home" },
-  { key: "nav.about", href: "/#about" },
-  { key: "nav.projects", href: "/#projects" },
-  { key: "nav.skills", href: "/#skills" },
-  { key: "nav.github", href: "/#github" },
-  { key: "nav.contact", href: "/#contact" },
-];
-
 export function Navbar() {
   const { t, language, setLanguage } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [location] = useLocation();
+
+  const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+  const navLinks = [
+    { key: "nav.home", href: `${base}/#home` },
+    { key: "nav.about", href: `${base}/#about` },
+    { key: "nav.projects", href: `${base}/#projects` },
+    { key: "nav.skills", href: `${base}/#skills` },
+    { key: "nav.github", href: `${base}/#github` },
+    { key: "nav.contact", href: `${base}/#contact` },
+  ];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -26,8 +28,8 @@ export function Navbar() {
 
   const handleNavClick = (href: string) => {
     setMenuOpen(false);
-    if (href.startsWith("/#") && location === "/") {
-      const id = href.slice(2);
+    if (href.includes("#") && location === "/") {
+      const id = href.split("#")[1];
       document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     }
   };
@@ -62,7 +64,7 @@ export function Navbar() {
               href={link.href}
               data-testid={`link-${link.key}`}
               onClick={(e) => {
-                if (link.href.startsWith("/#") && location === "/") {
+                if (link.href.includes("#") && location === "/") {
                   e.preventDefault();
                   handleNavClick(link.href);
                 }
@@ -117,7 +119,7 @@ export function Navbar() {
               key={link.key}
               href={link.href}
               onClick={(e) => {
-                if (link.href.startsWith("/#") && location === "/") {
+                if (link.href.includes("#") && location === "/") {
                   e.preventDefault();
                   handleNavClick(link.href);
                 }
@@ -139,4 +141,4 @@ export function Navbar() {
       )}
     </nav>
   );
-}
+          }
