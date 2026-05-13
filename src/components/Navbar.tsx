@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "wouter";
+import { Link, useLocation } from "wouter";
 import { Menu, X } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -7,9 +7,7 @@ export function Navbar() {
   const { t, language, setLanguage } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [location] = useLocation();
-  const navigate = useNavigate();
-
+  const [location, navigate] = useLocation();
   const navItems = [
     { key: "nav.home",     id: "home" },
     { key: "nav.about",    id: "about" },
