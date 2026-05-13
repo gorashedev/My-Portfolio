@@ -8,6 +8,8 @@ export default function Certifications() {
   const backLabel = language === "de" ? "Zurück" : language === "ar" ? "رجوع" : "Back";
   const verifyLabel = language === "de" ? "Zertifikat verifizieren" : language === "ar" ? "التحقق من الشهادة" : "Verify Certificate";
 
+  const base = import.meta.env.BASE_URL;
+
   const certs = [
     {
       title: "Google IT Support Professional Certificate",
@@ -42,7 +44,7 @@ export default function Certifications() {
       date: language === "de" ? "Mai 2026" : language === "ar" ? "مايو 2026" : "May 2026",
       skills: ["HTML", "CSS", "JavaScript", "Web Development", "Responsive Design"],
       verify: "https://www.coursera.org/account/accomplishments/verify/U2M1U2S6ZX9E",
-      logo: "https://upload.wikimedia.org/wikipedia/commons/9/9c/Johns_Hopkins_University_logo.svg",
+      logo: `${base}images/johns-hopkins.png`,
       featured: false,
     },
     {
@@ -74,7 +76,7 @@ export default function Certifications() {
         language === "ar" ? "نماذج اللغة الكبيرة" : "Large Language Models",
       ],
       verify: "https://omp.dub.ai/certificate/0u9cErvpmdCB",
-      logo: null,
+      logo: `${base}images/dubai-future-foundation.jpg`,
       featured: false,
     },
     {
@@ -83,7 +85,7 @@ export default function Certifications() {
       date: language === "de" ? "19. Mai 2026" : language === "ar" ? "19 مايو 2026" : "May 19, 2026",
       skills: ["Python 3", "OOP", "Algorithmic Thinking", "Debugging", "IoT"],
       verify: "https://www.credly.com/badges/134986e3-73e6-45ba-943f-07c3b4e93ab2/public_url",
-      logo: null,
+      logo: `${base}images/cisco-networking-academy.png`,
       featured: false,
     },
   ];
