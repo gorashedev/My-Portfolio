@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "wouter";
+import { Link, useLocation, useNavigate } from "wouter";
 import { Menu, X } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -8,16 +8,15 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [location] = useLocation();
+  const navigate = useNavigate();
 
-  const base = import.meta.env.BASE_URL.replace(/\/$/, "");
-
-  const navLinks = [
-    { key: "nav.home", href: `${base}/#home` },
-    { key: "nav.about", href: `${base}/#about` },
-    { key: "nav.projects", href: `${base}/#projects` },
-    { key: "nav.skills", href: `${base}/#skills` },
-    { key: "nav.github", href: `${base}/#github` },
-    { key: "nav.contact", href: `${base}/#contact` },
+  const navItems = [
+    { key: "nav.home",     id: "home" },
+    { key: "nav.about",    id: "about" },
+    { key: "nav.projects", id: "projects" },
+    { key: "nav.skills",   id: "skills" },
+    { key: "nav.github",   id: "github" },
+    { key: "nav.contact",  id: "contact" },
   ];
 
   useEffect(() => {
@@ -26,11 +25,26 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const handleNavClick = (href: string) => {
+  const scrollToSection = (id: string) => {
+    const tryScroll = (attempts = 0) => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      } else if (attempts < 20) {
+        setTimeout(() => tryScroll(attempts + 1), 100);
+      }
+    };
+    tryScroll();
+  };
+
+  const handleSectionClick = (e: React.MouseEvent, sectionId: string) => {
+    e.preventDefault();
     setMenuOpen(false);
-    if (href.includes("#") && location === "/") {
-      const id = href.split("#")[1];
-      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    if (location === "/") {
+      scrollToSection(sectionId);
+    } else {
+      navigate("/");
+      setTimeout(() => scrollToSection(sectionId), 50);
     }
   };
 
@@ -43,6 +57,7 @@ export function Navbar() {
         }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+
         {/* Logo */}
         <Link href="/" data-testid="link-logo">
           <div className="flex items-center gap-3 cursor-pointer">
@@ -58,21 +73,16 @@ export function Navbar() {
 
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-1">
-          {navLinks.map((link) => (
+          {navItems.map((item) => (
             <a
-              key={link.key}
-              href={link.href}
-              data-testid={`link-${link.key}`}
-              onClick={(e) => {
-                if (link.href.includes("#") && location === "/") {
-                  e.preventDefault();
-                  handleNavClick(link.href);
-                }
-              }}
+              key={item.key}
+              href={`#${item.id}`}
+              data-testid={`link-${item.key}`}
+              onClick={(e) => handleSectionClick(e, item.id)}
               className="px-3 py-1.5 text-sm text-[#94A3B8] hover:text-[#F1F5F9] rounded-lg hover:bg-white/5
                 transition-all duration-200 font-medium"
             >
-              {t(link.key)}
+              {t(item.key)}
             </a>
           ))}
           <Link href="/certifications">
@@ -114,21 +124,15 @@ export function Navbar() {
       {/* Mobile menu */}
       {menuOpen && (
         <div className="md:hidden border-t border-[#334155]/40 px-4 py-4 flex flex-col gap-1 bg-[#0A0E1A]/95 rounded-b-2xl">
-          {navLinks.map((link) => (
+          {navItems.map((item) => (
             <a
-              key={link.key}
-              href={link.href}
-              onClick={(e) => {
-                if (link.href.includes("#") && location === "/") {
-                  e.preventDefault();
-                  handleNavClick(link.href);
-                }
-                setMenuOpen(false);
-              }}
+              key={item.key}
+              href={`#${item.id}`}
+              onClick={(e) => handleSectionClick(e, item.id)}
               className="px-3 py-2.5 text-sm text-[#94A3B8] hover:text-[#F1F5F9] rounded-lg hover:bg-white/5
                 transition-all duration-200"
             >
-              {t(link.key)}
+              {t(item.key)}
             </a>
           ))}
           <Link href="/certifications" onClick={() => setMenuOpen(false)}>
@@ -141,4 +145,4 @@ export function Navbar() {
       )}
     </nav>
   );
-          }
+}
