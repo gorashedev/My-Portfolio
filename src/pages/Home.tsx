@@ -334,7 +334,7 @@ function Projects() {
           </div>
 
           <div className="flex flex-col sm:flex-row items-start gap-6 mb-6">
-            <div className="flex items-center gap-3">
+            
               <div className="flex items-center gap-3">
               <img
                 src={`${base}images/sorttube-icon.webp`}
