@@ -831,7 +831,7 @@ function Testimonials() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${SB_URL}/testimonials?order=created_at.desc&limit=3`, { headers: SB_HEADERS })
+    fetch(`${SB_URL}/testimonials?order=created_at.desc&limit=2`, { headers: SB_HEADERS })
       .then((r) => r.json())
       .then((data) => Array.isArray(data) && setItems(data))
       .catch(() => {})
@@ -854,7 +854,7 @@ function Testimonials() {
         ) : items.length === 0 ? (
           <div className="text-center py-12 text-[#94A3B8]">{noReviews}</div>
         ) : (
-          <div className="grid md:grid-cols-3 gap-6 mb-8">
+          <div className="grid md:grid-cols-2 gap-6 mb-8">
             {items.map((item) => (
               <div key={item.id} className="p-6 rounded-2xl bg-[#1E293B]/60 border border-[#334155]/40 relative
                 hover:border-[#6366F1]/30 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300 flex flex-col">
