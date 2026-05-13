@@ -831,7 +831,7 @@ function Testimonials() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${SB_URL}/testimonials?approved=eq.true&order=created_at.desc&limit=3`, { headers: SB_HEADERS })
+    fetch(`${SB_URL}/testimonials?order=created_at.desc&limit=3`, { headers: SB_HEADERS })
       .then((r) => r.json())
       .then((data) => Array.isArray(data) && setItems(data))
       .catch(() => {})
