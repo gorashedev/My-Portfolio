@@ -813,33 +813,80 @@ function LanguageSkills() {
 }
 
 // ─── TESTIMONIALS ─────────────────────────────────────────────────────────
+const SB_URL = "https://nijmaixshspqogidtdai.supabase.co/rest/v1";
+const SB_KEY = "sb_publishable_9U-mT8VLJQ0E5XoMIfIrTA_JmiERNXn";
+const SB_HEADERS = { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` };
+
+interface Testimonial {
+  id: string;
+  name: string;
+  role: string | null;
+  message: string;
+  created_at: string;
+}
+
 function Testimonials() {
   const { language } = useLanguage();
-  const title = language === "de" ? "Referenzen" : language === "ar" ? "آراء الآخرين" : "Testimonials";
-  const quote = language === "de"
-    ? "Gorashe zeigt außergewöhnliches Engagement beim Lernen. In kurzer Zeit baute er SortTube — eine vollständige Android-App mit OAuth, YouTube-API und einer ausgereiften Benutzeroberfläche. Das ist keine Denkweise eines Anfängers, das ist die Denkweise eines Machers."
-    : language === "ar"
-    ? "يُظهر قراشي التزاماً استثنائياً في التعلم. في فترة قصيرة، بنى SortTube — تطبيق أندرويد كامل بـ OAuth وYouTube API وواجهة مستخدم متقنة. هذه ليست عقلية مبتدئ، هذه عقلية صانع."
-    : "Gorashe shows exceptional dedication to learning. In a short time, he built SortTube — a complete Android app with OAuth, YouTube API, and a polished UI. That's not a beginner's mindset, that's a builder's mindset.";
-  const role = language === "de" ? "Senior-Entwickler & Mentor" : language === "ar" ? "مطور أول ومرشد" : "Senior Developer & Mentor";
+  const [items, setItems] = useState<Testimonial[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(`${SB_URL}/testimonials?approved=eq.true&order=created_at.desc&limit=3`, { headers: SB_HEADERS })
+      .then((r) => r.json())
+      .then((data) => Array.isArray(data) && setItems(data))
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  const viewAll = language === "de" ? "Alle Referenzen ansehen" : language === "ar" ? "عرض كل الآراء" : "View All Testimonials";
+  const leaveReview = language === "de" ? "Referenz hinterlassen" : language === "ar" ? "اترك رأيك" : "Leave a Review";
+  const noReviews = language === "de" ? "Noch keine Referenzen. Sei der Erste!" : language === "ar" ? "لا توجد آراء بعد. كن أول من يكتب!" : "No reviews yet. Be the first!";
 
   return (
     <AnimSection id="testimonials" className="py-24 bg-[#0A0E1A]">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <SectionTitle en="Testimonials" de="Referenzen" ar="آراء الآخرين" />
-        <div className="p-8 rounded-2xl bg-[#1E293B]/60 border border-[#334155]/40 relative
-          hover:border-[#6366F1]/30 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300">
-          <Quote className="w-10 h-10 text-[#6366F1]/30 absolute top-6 left-6" />
-          <p className="text-[#94A3B8] text-base leading-relaxed italic mb-6 pt-4">&ldquo;{quote}&rdquo;</p>
-          <div className="flex items-center gap-3 border-t border-[#334155]/40 pt-5">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#6366F1] to-[#06B6D4] flex items-center justify-center text-white font-bold text-sm">
-              A
-            </div>
-            <div>
-              <p className="font-['Sora'] text-sm font-semibold text-[#F1F5F9]">Ahmed Al-Rashid</p>
-              <p className="text-[#94A3B8] text-xs">{role}</p>
-            </div>
+
+        {loading ? (
+          <div className="flex justify-center py-12">
+            <div className="w-8 h-8 border-2 border-[#6366F1] border-t-transparent rounded-full animate-spin" />
           </div>
+        ) : items.length === 0 ? (
+          <div className="text-center py-12 text-[#94A3B8]">{noReviews}</div>
+        ) : (
+          <div className="grid md:grid-cols-3 gap-6 mb-8">
+            {items.map((item) => (
+              <div key={item.id} className="p-6 rounded-2xl bg-[#1E293B]/60 border border-[#334155]/40 relative
+                hover:border-[#6366F1]/30 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300 flex flex-col">
+                <Quote className="w-8 h-8 text-[#6366F1]/20 mb-4" />
+                <p className="text-[#94A3B8] text-sm leading-relaxed italic flex-1">&ldquo;{item.message}&rdquo;</p>
+                <div className="flex items-center gap-3 mt-5 pt-4 border-t border-[#334155]/40">
+                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#6366F1] to-[#06B6D4] flex items-center justify-center text-white font-bold text-xs flex-shrink-0">
+                    {item.name.slice(0, 2).toUpperCase()}
+                  </div>
+                  <div>
+                    <p className="font-['Sora'] text-sm font-semibold text-[#F1F5F9]">{item.name}</p>
+                    {item.role && <p className="text-[#94A3B8] text-xs">{item.role}</p>}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <div className="flex flex-wrap justify-center gap-3">
+          <Link href="/testimonials">
+            <span className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-[#6366F1]/40 text-[#6366F1]
+              font-semibold text-sm hover:bg-[#6366F1]/10 hover:border-[#6366F1]/70 transition-all duration-300 cursor-pointer">
+              {viewAll} →
+            </span>
+          </Link>
+          <Link href="/testimonials#write">
+            <span className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#6366F1] text-white
+              font-semibold text-sm hover:bg-[#4F46E5] transition-all duration-300 cursor-pointer">
+              ✍️ {leaveReview}
+            </span>
+          </Link>
         </div>
       </div>
     </AnimSection>
