@@ -399,19 +399,19 @@ function Projects() {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-4 gap-3 mb-6">
-            {[
-              { n: "8", l: language === "ar" ? "ميزات أساسية" : language === "de" ? "Kernfunktionen" : "Core Features" },
-              { n: "8", l: language === "ar" ? "تقنيات" : language === "de" ? "Technologien" : "Tech Stack" },
-              { n: "2", l: language === "ar" ? "لغات" : language === "de" ? "Sprachen" : "Languages" },
-              { n: "Android", l: language === "ar" ? "المنصة" : language === "de" ? "Plattform" : "Platform" },
-            ].map(({ n, l }) => (
-              <div key={l} className="text-center p-3 rounded-xl bg-[#0A0E1A]/60 border border-[#334155]/40">
-                <p className="font-['Sora'] text-lg font-bold text-[#6366F1]">{n}</p>
-                <p className="text-[#94A3B8] text-xs mt-0.5">{l}</p>
-              </div>
-            ))}
-          </div>
+<div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+  {[
+    { n: "8", l: language === "ar" ? "ميزات أساسية" : language === "de" ? "Kernfunktionen" : "Core Features" },
+    { n: "8", l: language === "ar" ? "تقنيات" : language === "de" ? "Technologien" : "Tech Stack" },
+    { n: "2", l: language === "ar" ? "لغات" : language === "de" ? "Sprachen" : "Languages" },
+    { n: "Android", l: language === "ar" ? "المنصة" : language === "de" ? "Plattform" : "Platform" },
+  ].map(({ n, l }) => (
+    <div key={l} className="text-center p-3 rounded-xl bg-[#0A0E1A]/60 border border-[#334155]/40">
+      <p className="font-['Sora'] text-base font-bold text-[#6366F1] break-words">{n}</p>
+      <p className="text-[#94A3B8] text-xs mt-0.5 leading-tight">{l}</p>
+    </div>
+  ))}
+</div>
 
           {/* Tech Stack */}
           <div className="mb-6">
