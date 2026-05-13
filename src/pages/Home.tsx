@@ -335,13 +335,28 @@ function Projects() {
 
           <div className="flex flex-col sm:flex-row items-start gap-6 mb-6">
             <div className="flex items-center gap-3">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center text-2xl shadow-lg flex-shrink-0">
-                ▶
-              </div>
+              <div className="flex items-center gap-3">
+              <img
+                src={`${base}images/sorttube-icon.webp`}
+                alt="SortTube Icon"
+                className="w-14 h-14 rounded-2xl object-cover shadow-lg shadow-red-500/25 flex-shrink-0"
+                onError={(e) => {
+                  const img = e.target as HTMLImageElement;
+                  const fallback = document.createElement('div');
+                  fallback.className =
+                    'w-14 h-14 rounded-2xl bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center text-2xl shadow-lg flex-shrink-0';
+                  fallback.textContent = '▶';
+                  img.parentNode?.replaceChild(fallback, img);
+                }}
+              />
               <div>
                 <h3 className="font-['Sora'] text-2xl font-bold text-[#F1F5F9]">SortTube</h3>
                 <p className="text-[#94A3B8] text-sm">
-                  {language === "de" ? "Android-Mobilanwendung · Mai 2026" : language === "ar" ? "تطبيق أندرويد · مايو 2026" : "Android Mobile Application · May 2026"}
+                  {language === "de"
+                    ? "Android-Mobilanwendung · Mai 2026"
+                    : language === "ar"
+                    ? "تطبيق أندرويد · مايو 2026"
+                    : "Android Mobile Application · May 2026"}
                 </p>
               </div>
             </div>
