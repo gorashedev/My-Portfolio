@@ -617,35 +617,142 @@ function TopCerts() {
 }
 
 // ─── GITHUB ───────────────────────────────────────────────────────────────
-function GitHubActivity() {
-  const { t } = useLanguage();
-  const cards = [
-    {
-      label: "GitHub Stats",
-      src: "https://github-readme-stats.vercel.app/api?username=qurashi512&show_icons=true&bg_color=0A0E1A&title_color=6366F1&text_color=F1F5F9&icon_color=06B6D4&border_color=334155",
-    },
-    {
-      label: "Contribution Graph",
-      src: "https://ghchart.rshah.org/6366F1/qurashi512",
-    },
-    {
-      label: "Top Languages",
-      src: "https://github-readme-stats.vercel.app/api/top-langs/?username=qurashi512&layout=compact&bg_color=0A0E1A&title_color=6366F1&text_color=F1F5F9&border_color=334155",
-    },
-  ];
+function GitHubStatCard() {
+  const [stats, setStats] = useState<{ repos: number; followers: number; following: number; stars: number } | null>(null);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    Promise.all([
+      fetch("https://api.github.com/users/qurashi512").then((r) => r.json()),
+      fetch("https://api.github.com/users/qurashi512/repos?per_page=100").then((r) => r.json()),
+    ])
+      .then(([user, repos]) => {
+        const stars = Array.isArray(repos)
+          ? repos.reduce((sum: number, r: { stargazers_count: number }) => sum + r.stargazers_count, 0)
+          : 0;
+        setStats({ repos: user.public_repos || 0, followers: user.followers || 0, following: user.following || 0, stars });
+      })
+      .catch(() => setStats(null))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const items = stats
+    ? [
+        { label: "Repos", value: stats.repos, icon: "📁" },
+        { label: "Stars", value: stats.stars, icon: "⭐" },
+        { label: "Followers", value: stats.followers, icon: "👥" },
+        { label: "Following", value: stats.following, icon: "➕" },
+      ]
+    : [];
+
+  return (
+    <div className="p-4 rounded-2xl bg-[#1E293B]/60 border border-[#334155]/40 hover:border-[#6366F1]/30 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300">
+      <p className="text-xs font-semibold text-[#6366F1] uppercase tracking-wider mb-3">GitHub Stats</p>
+      {loading ? (
+        <div className="flex items-center justify-center h-28">
+          <div className="w-6 h-6 border-2 border-[#6366F1] border-t-transparent rounded-full animate-spin" />
+        </div>
+      ) : stats ? (
+        <div className="grid grid-cols-2 gap-3 mt-1">
+          {items.map(({ label, value, icon }) => (
+            <div key={label} className="text-center p-3 rounded-xl bg-[#0A0E1A]/60 border border-[#334155]/30">
+              <span className="text-base">{icon}</span>
+              <p className="font-['Sora'] text-xl font-bold text-[#6366F1] mt-1">{value}</p>
+              <p className="text-[#94A3B8] text-xs mt-0.5">{label}</p>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <a href="https://github.com/qurashi512" target="_blank" rel="noopener noreferrer"
+          className="flex items-center justify-center h-28 text-[#94A3B8] text-sm hover:text-[#6366F1] transition-colors">
+          View on GitHub →
+        </a>
+      )}
+    </div>
+  );
+}
+
+function TopLanguagesCard() {
+  const [langs, setLangs] = useState<{ name: string; pct: number; color: string }[] | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  const LANG_COLORS: Record<string, string> = {
+    Kotlin: "#7F52FF", TypeScript: "#3178C6", JavaScript: "#F7DF1E",
+    Python: "#3776AB", HTML: "#E34F26", CSS: "#1572B6",
+    Java: "#ED8B00", Swift: "#FA7343", Dart: "#0175C2",
+    "C#": "#178600", C: "#A97BFF", "C++": "#F34B7D",
+    Shell: "#89E051", Go: "#00ADD8", Rust: "#DEA584",
+  };
+
+  useEffect(() => {
+    fetch("https://api.github.com/users/qurashi512/repos?per_page=100")
+      .then((r) => r.json())
+      .then((repos) => {
+        if (!Array.isArray(repos)) return;
+        const counts: Record<string, number> = {};
+        repos.forEach((repo: { language: string | null }) => {
+          if (repo.language) counts[repo.language] = (counts[repo.language] || 0) + 1;
+        });
+        const total = Object.values(counts).reduce((a, b) => a + b, 0);
+        if (total === 0) return;
+        const sorted = Object.entries(counts)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 6)
+          .map(([name, count]) => ({
+            name,
+            pct: Math.round((count / total) * 100),
+            color: LANG_COLORS[name] || "#6366F1",
+          }));
+        setLangs(sorted);
+      })
+      .catch(() => setLangs(null))
+      .finally(() => setLoading(false));
+  }, []);
+
+  return (
+    <div className="p-4 rounded-2xl bg-[#1E293B]/60 border border-[#334155]/40 hover:border-[#6366F1]/30 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300">
+      <p className="text-xs font-semibold text-[#6366F1] uppercase tracking-wider mb-3">Top Languages</p>
+      {loading ? (
+        <div className="flex items-center justify-center h-28">
+          <div className="w-6 h-6 border-2 border-[#6366F1] border-t-transparent rounded-full animate-spin" />
+        </div>
+      ) : langs && langs.length > 0 ? (
+        <div className="flex flex-col gap-3 mt-1">
+          {langs.map(({ name, pct, color }) => (
+            <div key={name}>
+              <div className="flex justify-between text-xs mb-1">
+                <span className="text-[#F1F5F9] font-medium">{name}</span>
+                <span className="text-[#94A3B8]">{pct}%</span>
+              </div>
+              <div className="h-1.5 rounded-full bg-[#0A0E1A] overflow-hidden">
+                <div className="h-full rounded-full" style={{ width: `${pct}%`, backgroundColor: color }} />
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <a href="https://github.com/qurashi512" target="_blank" rel="noopener noreferrer"
+          className="flex items-center justify-center h-28 text-[#94A3B8] text-sm hover:text-[#6366F1] transition-colors">
+          View on GitHub →
+        </a>
+      )}
+    </div>
+  );
+}
+
+function GitHubActivity() {
   return (
     <AnimSection id="github" className="py-24 bg-[#0A0E1A]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <SectionTitle en="GitHub Activity" de="GitHub-Aktivität" ar="نشاط GitHub" />
         <div className="grid md:grid-cols-3 gap-6">
-          {cards.map(({ label, src }) => (
-            <div key={label} className="p-4 rounded-2xl bg-[#1E293B]/60 border border-[#334155]/40 hover:border-[#6366F1]/30
-              hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300">
-              <p className="text-xs font-semibold text-[#6366F1] uppercase tracking-wider mb-3">{label}</p>
-              <img src={src} alt={label} loading="lazy" className="w-full rounded-lg" />
-            </div>
-          ))}
+          <GitHubStatCard />
+          <div className="p-4 rounded-2xl bg-[#1E293B]/60 border border-[#334155]/40 hover:border-[#6366F1]/30
+            hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300">
+            <p className="text-xs font-semibold text-[#6366F1] uppercase tracking-wider mb-3">Contribution Graph</p>
+            <img src="https://ghchart.rshah.org/6366F1/qurashi512" alt="Contribution Graph" loading="lazy" className="w-full rounded-lg" />
+          </div>
+          <TopLanguagesCard />
         </div>
       </div>
     </AnimSection>
