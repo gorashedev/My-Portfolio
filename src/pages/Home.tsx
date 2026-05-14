@@ -394,18 +394,9 @@ function Projects() {
                 </p>
               </div>
             </div>
+            
             {/* Screenshots */}
-            <div className="flex gap-2 ms-auto">
-              <div className="w-24 h-16 rounded-lg overflow-hidden border border-[#334155]/40">
-                <img src={`${base}images/sorttube-home.png`} alt="SortTube Home" loading="lazy"
-                  className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).parentElement!.style.display = "none"; }} />
-              </div>
-              <div className="w-24 h-16 rounded-lg overflow-hidden border border-[#334155]/40">
-                <img src={`${base}images/sorttube-channels.png`} alt="SortTube Channels" loading="lazy"
-                  className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).parentElement!.style.display = "none"; }} />
-              </div>
-            </div>
-          </div>
+<ProjectScreenshots base={base} />
 
           <div className="grid md:grid-cols-3 gap-6 mb-6">
             {[
