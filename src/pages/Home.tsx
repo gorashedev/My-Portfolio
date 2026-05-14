@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom"
 import { Link } from "wouter";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Github, Linkedin, Mail, Phone, MapPin, ExternalLink, ChevronDown, Star, Code2, Globe, HardDrive, CheckCircle2, Quote } from "lucide-react";
@@ -288,18 +289,27 @@ function ProjectScreenshots({ base }: { base: string }) {
           </button>
         ))}
       </div>
-      {lightbox && (
-        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
-          onClick={() => setLightbox(null)}>
-          <button onClick={() => setLightbox(null)}
+
+      {lightbox && createPortal(
+        <div
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
+          onClick={() => setLightbox(null)}
+        >
+          <button
+            onClick={() => setLightbox(null)}
             className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20
-              flex items-center justify-center text-white text-xl font-bold transition-colors">
+              flex items-center justify-center text-white text-xl font-bold transition-colors"
+          >
             ✕
           </button>
-          <img src={lightbox} alt="Screenshot"
+          <img
+            src={lightbox}
+            alt="Screenshot"
             className="max-w-sm w-full max-h-[85vh] rounded-2xl shadow-2xl object-contain"
-            onClick={(e) => e.stopPropagation()} />
-        </div>
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>,
+        document.body
       )}
     </>
   );
