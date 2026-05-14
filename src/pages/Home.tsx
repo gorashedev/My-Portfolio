@@ -270,6 +270,40 @@ function Services() {
 }
 
 // ─── PROJECTS ─────────────────────────────────────────────────────────────
+function ProjectScreenshots({ base }: { base: string }) {
+  const [lightbox, setLightbox] = useState<string | null>(null);
+  const shots = [
+    { src: `${base}images/sorttube-home.png`,     alt: "SortTube Home" },
+    { src: `${base}images/sorttube-channels.png`, alt: "SortTube Channels" },
+  ];
+  return (
+    <>
+      <div className="flex gap-2 ms-auto">
+        {shots.map(({ src, alt }) => (
+          <button key={alt} onClick={() => setLightbox(src)}
+            className="w-24 h-16 rounded-lg overflow-hidden border border-[#334155]/40
+              hover:border-[#6366F1]/60 hover:scale-105 transition-all duration-200 cursor-zoom-in">
+            <img src={src} alt={alt} loading="lazy" className="w-full h-full object-cover"
+              onError={(e) => { (e.target as HTMLImageElement).parentElement!.style.display = "none"; }} />
+          </button>
+        ))}
+      </div>
+      {lightbox && (
+        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
+          onClick={() => setLightbox(null)}>
+          <button onClick={() => setLightbox(null)}
+            className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20
+              flex items-center justify-center text-white text-xl font-bold transition-colors">
+            ✕
+          </button>
+          <img src={lightbox} alt="Screenshot"
+            className="max-w-sm w-full max-h-[85vh] rounded-2xl shadow-2xl object-contain"
+            onClick={(e) => e.stopPropagation()} />
+        </div>
+      )}
+    </>
+  );
+}
 function Projects() {
   const { language } = useLanguage();
   const base = import.meta.env.BASE_URL;
