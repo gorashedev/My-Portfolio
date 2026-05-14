@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "wouter";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Github, Linkedin, Mail, ExternalLink, ChevronDown, Star, Code2, Globe, HardDrive, CheckCircle2, Quote } from "lucide-react";
+import { Mail, Phone, MapPin, Quote, ... } from "lucide-react";
 
 // ─── Typewriter ────────────────────────────────────────────────────────────
 function Typewriter({ words }: { words: string[] }) {
