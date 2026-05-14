@@ -1,8 +1,10 @@
 import { Link } from "wouter";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ExternalLink, ArrowLeft } from "lucide-react";
+import { useLocation } from "wouter";
 
 export default function Certifications() {
+  const [, navigate] = useLocation();
   const { language } = useLanguage();
   const title = language === "de" ? "Alle Zertifikate" : language === "ar" ? "جميع الشهادات" : "All Certifications";
   const backLabel = language === "de" ? "Zurück" : language === "ar" ? "رجوع" : "Back";
@@ -94,11 +96,12 @@ export default function Certifications() {
     <main className="min-h-screen bg-[#0A0E1A] pt-28 pb-20">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Back */}
-        <Link href="/">
-          <span className="inline-flex items-center gap-2 text-[#94A3B8] hover:text-[#F1F5F9] text-sm font-medium mb-8 cursor-pointer transition-colors">
-            <ArrowLeft className="w-4 h-4" /> {backLabel}
-          </span>
-        </Link>
+        <button
+  onClick={() => { sessionStorage.setItem("scrollTarget", "certifications"); navigate("/"); }}
+  className="inline-flex items-center gap-2 text-[#94A3B8] hover:text-[#F1F5F9] text-sm font-medium mb-8 transition-colors"
+>
+  <ArrowLeft className="w-4 h-4" /> {backLabel}
+</button>
 
         {/* Header */}
         <div className="text-center mb-14">
