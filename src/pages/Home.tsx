@@ -395,8 +395,9 @@ function Projects() {
               </div>
             </div>
             
-            {/* Screenshots */}
-<ProjectScreenshots base={base} />
+                        {/* Screenshots */}
+            <ProjectScreenshots base={base} />
+          </div>
 
           <div className="grid md:grid-cols-3 gap-6 mb-6">
             {[
