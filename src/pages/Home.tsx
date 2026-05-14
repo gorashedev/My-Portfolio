@@ -1028,21 +1028,23 @@ function Contact() {
           <div>
             <div className="flex flex-col gap-4 mb-8">
               {[
-                { icon: Mail, label: "Email", value: "gorashe.suliman@outlook.com", href: "mailto:gorashe.suliman@outlook.com" },
-                { icon: null, label: language === "ar" ? "الهاتف" : language === "de" ? "Telefon" : "Phone", value: "+20 101 073 6525", href: "tel:+201010736525" },
-                { icon: null, label: language === "ar" ? "الموقع" : language === "de" ? "Standort" : "Location", value: "Cairo, Egypt → Germany 🇩🇪", href: null },
-              ].map(({ label, value, href }) => (
-                <div key={label} className="flex items-center gap-4 p-4 rounded-xl bg-[#1E293B]/60 border border-[#334155]/40">
-                  <div className="w-10 h-10 rounded-lg bg-[#0A0E1A] border border-[#334155]/40 flex items-center justify-center">
-                    <Mail className="w-4 h-4 text-[#6366F1]" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-semibold text-[#6366F1] uppercase tracking-wider">{label}</p>
-                    {href ? <a href={href} className="text-[#F1F5F9] text-sm hover:text-[#6366F1] transition-colors">{value}</a>
-                      : <p className="text-[#F1F5F9] text-sm">{value}</p>}
-                  </div>
-                </div>
-              ))}
+                { icon: Mail,      label: "Email",    labelAr: "البريد",   labelDe: "E-Mail",   value: "gorashe.suliman@outlook.com", href: "mailto:gorashe.suliman@outlook.com" },
+                { icon: Phone,     label: "Phone",    labelAr: "الهاتف",   labelDe: "Telefon",  value: "+20 101 073 6525",             href: "tel:+201010736525" },
+                { icon: MapPin,    label: "Location", labelAr: "الموقع",   labelDe: "Standort", value: "Cairo, Egypt → Germany 🇩🇪",   href: null },
+              ].map(({ icon: Icon, label, labelAr, labelDe, value, href }) => (
+               <div key={label} className="flex items-center gap-4 p-4 rounded-xl bg-[#1E293B]/60 border border-[#334155]/40">
+                 <div className="w-10 h-10 rounded-lg bg-[#0A0E1A] border border-[#334155]/40 flex items-center justify-center">
+                   <Icon className="w-4 h-4 text-[#6366F1]" />
+                 </div>
+                 <div>
+                   <p className="text-xs font-semibold text-[#6366F1] uppercase tracking-wider">
+                     {language === "ar" ? labelAr : language === "de" ? labelDe : label}
+                   </p>
+                   {href ? <a href={href} className="text-[#F1F5F9] text-sm hover:text-[#6366F1] transition-colors">{value}</a>
+                     : <p className="text-[#F1F5F9] text-sm">{value}</p>}
+                 </div>
+               </div>
+             ))}
             </div>
 
             {/* Social */}
