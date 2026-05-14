@@ -105,7 +105,16 @@ export function Navbar() {
                     : "text-[#94A3B8] hover:text-[#F1F5F9]"
                   }`}
               >
-                {lang === "en" ? "🇬🇧 EN" : lang === "de" ? "🇩🇪 DE" : "🇸🇦 AR"}
+                <span className="flex items-center gap-1.5">
+                  <img
+                    src={`https://flagcdn.com/w20/${lang === "en" ? "gb" : lang === "de" ? "de" : "sa"}.png`}
+                    width={16}
+                    height={12}
+                    alt={lang}
+                    className="rounded-sm object-cover"
+                  />
+                  {lang.toUpperCase()}
+                </span>
               </button>
             ))}
           </div>
