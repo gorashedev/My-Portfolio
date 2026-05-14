@@ -3,7 +3,7 @@
 Personal portfolio website for Gorashe Suliman, Junior Android & Web Developer.
 
 **Live site:** https://qurashi512.github.io/My-Portfolio/
-
+ 
 ## Stack
 
 - React + Vite + TypeScript
