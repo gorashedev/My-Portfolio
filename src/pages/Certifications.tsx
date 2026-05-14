@@ -97,11 +97,11 @@ export default function Certifications() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Back */}
         <button
-  onClick={() => { sessionStorage.setItem("scrollTarget", "certifications"); navigate("/"); }}
-  className="inline-flex items-center gap-2 text-[#94A3B8] hover:text-[#F1F5F9] text-sm font-medium mb-8 transition-colors"
->
-  <ArrowLeft className="w-4 h-4" /> {backLabel}
-</button>
+          onClick={() => { sessionStorage.setItem("scrollTarget", "certifications"); navigate("/"); }}
+          className="inline-flex items-center gap-2 text-[#94A3B8] hover:text-[#F1F5F9] text-sm font-medium mb-8 transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4" /> {backLabel}
+        </button>
 
         {/* Header */}
         <div className="text-center mb-14">
