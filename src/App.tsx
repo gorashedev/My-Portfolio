@@ -1,4 +1,5 @@
-import { Switch, Route, Router as WouterRouter } from "wouter";
+import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
+import { useEffect } from "react";                              // ← أضف هذا
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -14,9 +15,19 @@ import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient();
 
+// ← مكوّن جديد يرجع للأعلى عند كل تنقل
+function ScrollReset() {
+  const [location] = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [location]);
+  return null;
+}
+
 function Router() {
   return (
     <>
+      <ScrollReset />                          {/* ← أضفه هنا */}
       <Navbar />
       <Switch>
         <Route path="/" component={Home} />
