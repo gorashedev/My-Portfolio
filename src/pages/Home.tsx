@@ -788,7 +788,7 @@ function GitHubActivity() {
     fetch(`https://api.github.com/users/${username}`)
       .then(r => r.json())
       .then(d => setStats({ repos: d.public_repos, stars: 0, followers: d.followers, following: d.following }));
-    fetch(`https://api.github.com/users/${username}/repos?per_page=100`)
+    fetch(`https://api.github.com/users/${username}/repos?per_page=100&type=owner&sort=created`)
       .then(r => r.json())
       .then((repos: { language: string | null; stargazers_count: number }[]) => {
         if (!Array.isArray(repos)) return;
