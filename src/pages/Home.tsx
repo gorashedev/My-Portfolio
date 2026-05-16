@@ -463,7 +463,7 @@ function Projects() {
 
           {/* Links */}
           <div className="flex flex-wrap gap-3">
-            <a href="https://qurashi512.github.io/SortTube/" target="_blank" rel="noopener noreferrer"
+            <a href="https://sorttube.is-a.dev/" target="_blank" rel="noopener noreferrer"
               data-testid="btn-sorttube-demo"
               className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#6366F1] to-[#06B6D4]
                 text-white font-semibold text-sm hover:shadow-lg hover:shadow-indigo-500/30 hover:scale-105 transition-all duration-300">
