@@ -103,42 +103,55 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-:root {
+/* ─── DARK MODE (default) ──────────────────────────────────────────────────── */
+:root,
+html.dark {
   --button-outline: rgba(255,255,255, .10);
   --badge-outline: rgba(255,255,255, .05);
   --opaque-button-border-intensity: 9;
   --elevate-1: rgba(255,255,255, .04);
   --elevate-2: rgba(255,255,255, .09);
 
-  --background: 225 44% 7%;
-  --foreground: 210 40% 96%;
+  /* Brand palette — dark */
+  --bg-base:       #0A0A0F;
+  --bg-surface:    #12121A;
+  --bg-border:     #1E1E2E;
+  --accent-purple: #6C63FF;
+  --accent-cyan:   #00D4FF;
+  --text-primary:  #F0F0F5;
+  --text-muted:    #8B8B9E;
+  --android-green: #3DDC84;
 
-  --border: 215 25% 27%;
-  --input: 215 25% 27%;
-  --ring: 239 84% 67%;
+  /* Tailwind HSL tokens mapped to dark palette */
+  --background: 240 40% 4%;         /* #0A0A0F */
+  --foreground: 240 20% 96%;        /* #F0F0F5 */
 
-  --card: 217 33% 17%;
-  --card-foreground: 210 40% 96%;
-  --card-border: 215 25% 27%;
+  --border: 240 27% 14%;            /* #1E1E2E */
+  --input:  240 27% 14%;
+  --ring:   247 100% 70%;           /* #6C63FF */
 
-  --popover: 221 39% 11%;
-  --popover-foreground: 210 40% 96%;
-  --popover-border: 215 25% 27%;
+  --card: 240 30% 8%;               /* #12121A */
+  --card-foreground: 240 20% 96%;
+  --card-border: 240 27% 14%;
 
-  --primary: 239 84% 67%;
-  --primary-foreground: 210 40% 96%;
+  --popover: 240 35% 6%;
+  --popover-foreground: 240 20% 96%;
+  --popover-border: 240 27% 14%;
 
-  --secondary: 188 94% 43%;
-  --secondary-foreground: 210 40% 96%;
+  --primary: 247 100% 70%;          /* #6C63FF */
+  --primary-foreground: 240 20% 96%;
 
-  --muted: 221 39% 11%;
-  --muted-foreground: 215 20% 65%;
+  --secondary: 192 100% 42%;        /* #00D4FF */
+  --secondary-foreground: 240 20% 96%;
 
-  --accent: 239 84% 67%;
-  --accent-foreground: 210 40% 96%;
+  --muted: 240 30% 8%;
+  --muted-foreground: 240 10% 56%;  /* #8B8B9E */
+
+  --accent: 247 100% 70%;
+  --accent-foreground: 240 20% 96%;
 
   --destructive: 0 84% 60%;
-  --destructive-foreground: 210 40% 96%;
+  --destructive-foreground: 240 20% 96%;
 
   --app-font-sans: 'ThmanyahSans', sans-serif;
   --app-font-serif: Georgia, serif;
@@ -158,6 +171,61 @@
   --destructive-border: hsl(var(--destructive));
 }
 
+/* ─── LIGHT MODE ───────────────────────────────────────────────────────────── */
+html.light {
+  --button-outline: rgba(0,0,0, .08);
+  --badge-outline: rgba(0,0,0, .04);
+  --elevate-1: rgba(0,0,0, .03);
+  --elevate-2: rgba(0,0,0, .06);
+
+  /* Brand palette — light */
+  --bg-base:       #FAFAFA;
+  --bg-surface:    #FFFFFF;
+  --bg-border:     #E2E2F0;
+  --accent-purple: #6C63FF;
+  --accent-cyan:   #00B4D8;
+  --text-primary:  #1A1A2E;
+  --text-muted:    #64748B;
+  --android-green: #3DDC84;
+
+  /* Tailwind HSL tokens mapped to light palette */
+  --background: 240 20% 98%;        /* #FAFAFA */
+  --foreground: 240 55% 14%;        /* #1A1A2E */
+
+  --border: 240 30% 88%;            /* #E2E2F0 */
+  --input:  240 30% 88%;
+  --ring:   247 100% 70%;           /* #6C63FF */
+
+  --card: 0 0% 100%;                /* #FFFFFF */
+  --card-foreground: 240 55% 14%;
+  --card-border: 240 30% 88%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 55% 14%;
+  --popover-border: 240 30% 88%;
+
+  --primary: 247 100% 70%;          /* #6C63FF */
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 192 100% 42%;
+  --secondary-foreground: 0 0% 100%;
+
+  --muted: 240 20% 96%;
+  --muted-foreground: 215 16% 47%;  /* #64748B */
+
+  --accent: 247 100% 70%;
+  --accent-foreground: 0 0% 100%;
+
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+
+  --primary-border: hsl(var(--primary));
+  --secondary-border: hsl(var(--secondary));
+  --muted-border: hsl(var(--muted));
+  --accent-border: hsl(var(--accent));
+  --destructive-border: hsl(var(--destructive));
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -169,9 +237,48 @@ html {
 
   body {
     @apply font-sans antialiased bg-background text-foreground;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--app-font-sora);
   }
 }
+
+/* ─── Glassmorphism utility classes ────────────────────────────────────────── */
+@layer utilities {
+  .glass-dark {
+    background: rgba(18, 18, 26, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(108, 99, 255, 0.12);
+  }
+
+  .glass-light {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(108, 99, 255, 0.15);
+  }
+
+  .glow-purple {
+    box-shadow: 0 0 40px rgba(108, 99, 255, 0.15), 0 0 80px rgba(108, 99, 255, 0.05);
+  }
+
+  .glow-cyan {
+    box-shadow: 0 0 40px rgba(0, 212, 255, 0.12), 0 0 80px rgba(0, 212, 255, 0.04);
+  }
+}
+
+/* ─── Theme-aware surface helpers (used via inline style vars) ─────────────── */
+html.dark  .theme-surface  { background-color: #12121A; border-color: #1E1E2E; }
+html.light .theme-surface  { background-color: #FFFFFF;  border-color: #E2E2F0; }
+
+html.dark  .theme-bg       { background-color: #0A0A0F; }
+html.light .theme-bg       { background-color: #FAFAFA; }
+
+html.dark  .theme-text     { color: #F0F0F5; }
+html.light .theme-text     { color: #1A1A2E; }
+
+html.dark  .theme-muted    { color: #8B8B9E; }
+html.light .theme-muted    { color: #64748B; }
