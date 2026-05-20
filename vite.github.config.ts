@@ -54,7 +54,7 @@ export default defineConfig({
 
         // نسخ 404.html
         try {
-          copyFileSync(${outDir}/index.html, ${outDir}/404.html);
+          copyFileSync(outDir + "/index.html", outDir + "/404.html");
           console.log("✅ 404.html created");
         } catch (err) {
           console.warn("⚠️ Could not copy 404.html:", err);
