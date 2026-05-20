@@ -1134,7 +1134,7 @@ function Contact() {
             <div className="flex flex-col gap-3 mb-8">
               {[
                 { label: "GitHub", sub: "gorashe-dev", href: "https://github.com/gorashe-dev", icon: Github },
-                { label: "LinkedIn", sub: "gorashe-dev", href: "https://linkedin.com/in/gorashedev", icon: Linkedin },
+                { label: "LinkedIn", sub: "gorashedev", href: "https://linkedin.com/in/gorashedev", icon: Linkedin },
               ].map(({ label, sub, href, icon: Icon }) => (
                 <a key={label} href={href} target="_blank" rel="noopener noreferrer"
                   className={`flex items-center gap-4 p-4 rounded-xl border backdrop-blur-sm
