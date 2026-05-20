@@ -137,8 +137,8 @@ function Hero() {
         {/* Socials */}
         <div className="flex items-center justify-center gap-4">
           {[
-            { href: "https://github.com/qurashi512", icon: Github, label: "GitHub" },
-            { href: "https://linkedin.com/in/qurashi512", icon: Linkedin, label: "LinkedIn" },
+            { href: "https://github.com/gorashe-dev", icon: Github, label: "GitHub" },
+            { href: "https://linkedin.com/in/gorashe-dev", icon: Linkedin, label: "LinkedIn" },
             { href: "mailto:gorashe.suliman@outlook.com", icon: Mail, label: "Email" },
           ].map(({ href, icon: Icon, label }) => (
             <a key={label} href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer"
@@ -490,13 +490,13 @@ function Projects() {
                 text-white font-semibold text-sm hover:shadow-lg hover:shadow-indigo-500/30 hover:scale-105 transition-all duration-300">
               <ExternalLink className="w-4 h-4" /> {tryDemo}
             </a>
-            <a href="https://github.com/qurashi512/SortTube" target="_blank" rel="noopener noreferrer"
+            <a href="https://github.com/gorashe-dev/SortTube" target="_blank" rel="noopener noreferrer"
               data-testid="btn-sorttube-github"
               className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-[#334155] text-[#F1F5F9] font-semibold text-sm
                 hover:border-[#6366F1]/50 hover:bg-white/5 transition-all duration-300">
               <Github className="w-4 h-4" /> {viewGH}
             </a>
-            <a href="https://github.com/qurashi512/SortTube/blob/main/README.md" target="_blank" rel="noopener noreferrer"
+            <a href="https://github.com/gorashe-dev/SortTube/blob/main/README.md" target="_blank" rel="noopener noreferrer"
               className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-[#334155] text-[#94A3B8] font-semibold text-sm
                 hover:border-[#334155]/80 hover:bg-white/5 transition-all duration-300">
               <ExternalLink className="w-4 h-4" /> {readDoc}
@@ -534,7 +534,7 @@ function Projects() {
                 ${isDark ? "bg-[#0A0A0F] border-[#1E1E2E]/60 text-[#8B8B9E]" : "bg-[#F4F4F8] border-[#E2E2F0]/80 text-[#64748B]"}`}>{t}</span>
             ))}
           </div>
-          <a href="https://github.com/qurashi512/Expense-Tracker" target="_blank" rel="noopener noreferrer"
+          <a href="https://github.com/gorashe-dev/Expense-Tracker" target="_blank" rel="noopener noreferrer"
             data-testid="btn-expense-github"
             className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border font-semibold text-sm transition-all duration-300
               hover:border-[#6C63FF]/50 hover:bg-[#6C63FF]/5
@@ -691,8 +691,8 @@ function GitHubStatCard() {
 
   useEffect(() => {
     Promise.all([
-      fetch("https://api.github.com/users/qurashi512").then((r) => r.json()),
-      fetch("https://api.github.com/users/qurashi512/repos?per_page=100").then((r) => r.json()),
+      fetch("https://api.github.com/users/gorashe-dev").then((r) => r.json()),
+      fetch("https://api.github.com/users/gorashe-dev/repos?per_page=100").then((r) => r.json()),
     ])
       .then(([user, repos]) => {
         const stars = Array.isArray(repos)
@@ -731,7 +731,7 @@ function GitHubStatCard() {
           ))}
         </div>
       ) : (
-        <a href="https://github.com/qurashi512" target="_blank" rel="noopener noreferrer"
+        <a href="https://github.com/gorashe-dev" target="_blank" rel="noopener noreferrer"
           className="flex items-center justify-center h-28 text-[#94A3B8] text-sm hover:text-[#6366F1] transition-colors">
           View on GitHub →
         </a>
@@ -753,7 +753,7 @@ function TopLanguagesCard() {
   };
 
   useEffect(() => {
-    fetch("https://api.github.com/users/qurashi512/repos?per_page=100")
+    fetch("https://api.github.com/users/gorashe-dev/repos?per_page=100")
       .then((r) => r.json())
       .then((repos) => {
         if (!Array.isArray(repos)) return;
@@ -799,7 +799,7 @@ function TopLanguagesCard() {
           ))}
         </div>
       ) : (
-        <a href="https://github.com/qurashi512" target="_blank" rel="noopener noreferrer"
+        <a href="https://github.com/gorashe-dev" target="_blank" rel="noopener noreferrer"
           className="flex items-center justify-center h-28 text-[#94A3B8] text-sm hover:text-[#6366F1] transition-colors">
           View on GitHub →
         </a>
@@ -1133,8 +1133,8 @@ function Contact() {
             {/* Social */}
             <div className="flex flex-col gap-3 mb-8">
               {[
-                { label: "GitHub", sub: "@qurashi512", href: "https://github.com/qurashi512", icon: Github },
-                { label: "LinkedIn", sub: "qurashi512", href: "https://linkedin.com/in/qurashi512", icon: Linkedin },
+                { label: "GitHub", sub: "@qurashi512", href: "https://github.com/gorashe-dev", icon: Github },
+                { label: "LinkedIn", sub: "qurashi512", href: "https://linkedin.com/in/gorashe-dev", icon: Linkedin },
               ].map(({ label, sub, href, icon: Icon }) => (
                 <a key={label} href={href} target="_blank" rel="noopener noreferrer"
                   className={`flex items-center gap-4 p-4 rounded-xl border backdrop-blur-sm
