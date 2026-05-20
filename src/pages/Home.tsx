@@ -138,7 +138,7 @@ function Hero() {
         <div className="flex items-center justify-center gap-4">
           {[
             { href: "https://github.com/gorashe-dev", icon: Github, label: "GitHub" },
-            { href: "https://linkedin.com/in/gorashe-dev", icon: Linkedin, label: "LinkedIn" },
+            { href: "https://linkedin.com/in/gorashedev", icon: Linkedin, label: "LinkedIn" },
             { href: "mailto:gorashe.suliman@outlook.com", icon: Mail, label: "Email" },
           ].map(({ href, icon: Icon, label }) => (
             <a key={label} href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer"
@@ -1134,7 +1134,7 @@ function Contact() {
             <div className="flex flex-col gap-3 mb-8">
               {[
                 { label: "GitHub", sub: "gorashe-dev", href: "https://github.com/gorashe-dev", icon: Github },
-                { label: "LinkedIn", sub: "gorashe-dev", href: "https://linkedin.com/in/gorashe-dev", icon: Linkedin },
+                { label: "LinkedIn", sub: "gorashe-dev", href: "https://linkedin.com/in/gorashedev", icon: Linkedin },
               ].map(({ label, sub, href, icon: Icon }) => (
                 <a key={label} href={href} target="_blank" rel="noopener noreferrer"
                   className={`flex items-center gap-4 p-4 rounded-xl border backdrop-blur-sm
