@@ -20,7 +20,7 @@ export default defineConfig({
         try {
           cpSync(
             path.resolve(import.meta.dirname, "images"),
-            ${outDir}/images,
+            ${outDir}/images`,
             { recursive: true }
           );
           console.log("✅ images copied");
@@ -44,7 +44,7 @@ export default defineConfig({
         try {
           cpSync(
             path.resolve(import.meta.dirname, "fonts"),
-            ${outDir}/fonts,
+            ${outDir}/fonts`,
             { recursive: true }
           );
           console.log("✅ fonts copied");
