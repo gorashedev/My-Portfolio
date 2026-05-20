@@ -12,22 +12,49 @@ export default defineConfig({
     react(),
     tailwindcss(),
     {
-      name: "copy-images-and-404",
+      name: "copy-assets-and-404",
       closeBundle() {
         const outDir = path.resolve(import.meta.dirname, "dist");
-        const imagesDir = path.resolve(import.meta.dirname, "images");
-        
-        // نسخ مجلد images للـ dist
+
+        // نسخ مجلد images
         try {
-          cpSync(imagesDir, `${outDir}/images`, { recursive: true });
-          console.log("✅ images copied to dist/images");
+          cpSync(
+            path.resolve(import.meta.dirname, "images"),
+            ${outDir}/images,
+            { recursive: true }
+          );
+          console.log("✅ images copied");
         } catch (err) {
           console.warn("⚠️ Could not copy images:", err);
         }
 
+        // نسخ مجلد cv
+        try {
+          cpSync(
+            path.resolve(import.meta.dirname, "cv"),
+            ${outDir}/cv,
+            { recursive: true }
+          );
+          console.log("✅ cv copied");
+        } catch (err) {
+          console.warn("⚠️ Could not copy cv:", err);
+        }
+
+        // نسخ مجلد fonts
+        try {
+          cpSync(
+            path.resolve(import.meta.dirname, "fonts"),
+            ${outDir}/fonts,
+            { recursive: true }
+          );
+          console.log("✅ fonts copied");
+        } catch (err) {
+          console.warn("⚠️ Could not copy fonts:", err);
+        }
+
         // نسخ 404.html
         try {
-          copyFileSync(`${outDir}/index.html`, `${outDir}/404.html`);
+          copyFileSync(${outDir}/index.html, ${outDir}/404.html);
           console.log("✅ 404.html created");
         } catch (err) {
           console.warn("⚠️ Could not copy 404.html:", err);
