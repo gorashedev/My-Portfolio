@@ -27,7 +27,7 @@ const translations: Record<Language, Record<string, string>> = {
     'hero.btn.cv': 'Download CV',
     
     // Typewriter
-    'hero.type.1': 'Junior Android Developer',
+    'hero.type.1': 'Android Developer',
     'hero.type.2': 'Web Developer',
     'hero.type.3': 'IT Specialist',
     'hero.type.4': 'Problem Solver',
@@ -61,7 +61,7 @@ const translations: Record<Language, Record<string, string>> = {
     'hero.btn.contact': 'Kontakt aufnehmen',
     'hero.btn.cv': 'Lebenslauf',
     
-    'hero.type.1': 'Junior Android-Entwickler',
+    'hero.type.1': 'Android-Entwickler',
     'hero.type.2': 'Webentwickler',
     'hero.type.3': 'IT-Spezialist',
     'hero.type.4': 'Problemlöser',
@@ -93,7 +93,7 @@ const translations: Record<Language, Record<string, string>> = {
     'hero.btn.contact': 'تواصل معي',
     'hero.btn.cv': 'تحميل السيرة الذاتية',
     
-    'hero.type.1': 'مطور أندرويد مبتدئ',
+    'hero.type.1': 'مطور أندرويد',
     'hero.type.2': 'مطور ويب',
     'hero.type.3': 'متخصص تقنية معلومات',
     'hero.type.4': 'حلال مشكلات',
