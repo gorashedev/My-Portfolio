@@ -813,7 +813,7 @@ function GitHubActivity() {
   const { t, language } = useLanguage();
   const { theme } = useTheme();
   const isDark = theme === "dark";
-  const username = "qurashi512";
+  const username = "gorashe-dev";
   const [stats, setStats] = useState<{ repos: number; stars: number; followers: number; following: number } | null>(null);
   const [langs, setLangs] = useState<{ name: string; pct: number; color: string }[]>([]);
   const COLORS = ["#6C63FF","#00D4FF","#A855F7","#F59E0B","#3DDC84","#EF4444","#F97316","#EC4899"];
