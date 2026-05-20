@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom"
 import { Link } from "wouter";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useTheme } from "@/contexts/ThemeContext";
 import { Github, Linkedin, Mail, Phone, MapPin, ExternalLink, ChevronDown, Star, Code2, Globe, HardDrive, CheckCircle2, Quote } from "lucide-react";
 
 // ─── Typewriter ────────────────────────────────────────────────────────────
@@ -50,13 +51,14 @@ function AnimSection({ children, className = "", id }: { children: React.ReactNo
   );
 }
 
-function SectionTitle({ en, de, ar }: { en: string; de: string; ar: string }) {
+function SectionTitle({ en, de, ar, isDark = true }: { en: string; de: string; ar: string; isDark?: boolean }) {
   const { language } = useLanguage();
   const label = language === "de" ? de : language === "ar" ? ar : en;
   return (
-    <div className="text-center mb-14">
-      <h2 className="font-['Sora'] text-3xl md:text-4xl font-bold text-[#F1F5F9] mb-3">{label}</h2>
-      <div className="w-16 h-1 bg-gradient-to-r from-[#6366F1] to-[#06B6D4] rounded-full mx-auto" />
+    <div className="text-center mb-10">
+      <h2 className={`font-['Sora'] text-3xl md:text-4xl font-bold mb-3 transition-colors duration-300
+        ${isDark ? "text-[#F0F0F5]" : "text-[#1A1A2E]"}`}>{label}</h2>
+      <div className="w-16 h-1 bg-gradient-to-r from-[#6C63FF] to-[#00D4FF] rounded-full mx-auto" />
     </div>
   );
 }
@@ -64,63 +66,70 @@ function SectionTitle({ en, de, ar }: { en: string; de: string; ar: string }) {
 // ─── HERO ──────────────────────────────────────────────────────────────────
 function Hero() {
   const { t, language } = useLanguage();
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const typeWords = language === "de"
-    ? ["Junior Android-Entwickler", "Webentwickler", "IT-Spezialist", "Problemlöser"]
+    ? ["Android-Entwickler", "Webentwickler", "IT-Spezialist", "Problemlöser"]
     : language === "ar"
-    ? ["مطور أندرويد مبتدئ", "مطور ويب", "متخصص تقنية معلومات", "حلال مشكلات"]
-    : ["Junior Android Developer", "Web Developer", "IT Specialist", "Problem Solver"];
+    ? ["مطور أندرويد", "مطور ويب", "متخصص تقنية معلومات", "حلال مشكلات"]
+    : ["Android Developer", "Web Developer", "IT Specialist", "Problem Solver"];
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24 pb-16">
+    <section id="home" className={`relative min-h-screen flex items-center justify-center overflow-hidden pt-24 pb-12 transition-colors duration-300
+      ${isDark ? "bg-[#0A0A0F]" : "bg-[#FAFAFA]"}`}>
       {/* Background orbs */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-[#6366F1]/10 blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-[#06B6D4]/10 blur-3xl animate-pulse" style={{ animationDelay: "1s" }} />
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9IiMzMzQxNTUiIG9wYWNpdHk9IjAuMyIvPjwvc3ZnPg==')] opacity-40" />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-[#6C63FF]/10 blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-[#00D4FF]/8 blur-3xl animate-pulse" style={{ animationDelay: "1s" }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#6C63FF]/5 blur-3xl" />
       </div>
 
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6 text-center">
         {/* Tag */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#1E293B] border border-[#334155]/60 text-[#94A3B8] text-sm mb-8 backdrop-blur">
-          <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+        <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm mb-8 backdrop-blur border transition-colors duration-300
+          ${isDark ? "bg-[#12121A] border-[#1E1E2E]/80 text-[#8B8B9E]" : "bg-white border-[#E2E2F0]/80 text-[#64748B] shadow-sm"}`}>
+          <span className="w-2 h-2 rounded-full bg-[#3DDC84] animate-pulse" />
           {t("hero.tag")}
         </div>
 
         {/* Name */}
-        <h1 className="font-['Sora'] text-5xl md:text-7xl font-bold text-[#F1F5F9] mb-4 leading-tight">
-          Gorashe <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6366F1] to-[#06B6D4]">Suliman</span>
+        <h1 className={`font-['Sora'] text-5xl md:text-7xl font-bold mb-4 leading-tight transition-colors duration-300
+          ${isDark ? "text-[#F0F0F5]" : "text-[#1A1A2E]"}`}>
+          Gorashe <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6C63FF] to-[#00D4FF]">Suliman</span>
         </h1>
 
         {/* Typewriter */}
-        <div className="font-['Sora'] text-xl md:text-2xl font-medium text-[#94A3B8] mb-6 h-8">
+        <div className={`font-['Sora'] text-xl md:text-2xl font-medium mb-6 h-8 transition-colors duration-300
+          ${isDark ? "text-[#8B8B9E]" : "text-[#64748B]"}`}>
           <Typewriter words={typeWords} />
         </div>
 
         {/* Description */}
-        <p className="max-w-2xl mx-auto text-[#94A3B8] text-base md:text-lg leading-relaxed mb-10">
+        <p className={`max-w-2xl mx-auto text-base md:text-lg leading-relaxed mb-10 transition-colors duration-300
+          ${isDark ? "text-[#8B8B9E]" : "text-[#64748B]"}`}>
           {t("hero.desc")}
         </p>
 
         {/* Buttons */}
         <div className={`flex flex-wrap gap-3 justify-center mb-10 ${language === "ar" ? "flex-row-reverse" : ""}`}>
           <a href="#projects" onClick={(e) => { e.preventDefault(); document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" }); }}
-            className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#6366F1] to-[#06B6D4] text-white font-semibold
-              hover:shadow-lg hover:shadow-indigo-500/30 hover:scale-105 transition-all duration-300" data-testid="btn-view-projects">
+            className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#6C63FF] to-[#00D4FF] text-white font-semibold
+              hover:shadow-lg hover:shadow-[#6C63FF]/30 hover:scale-105 transition-all duration-300" data-testid="btn-view-projects">
             {t("hero.btn.projects")}
           </a>
           <a href="#contact" onClick={(e) => { e.preventDefault(); document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }); }}
-            className="px-6 py-3 rounded-xl border border-[#334155] text-[#F1F5F9] font-semibold hover:border-[#6366F1]/60
-              hover:bg-white/5 hover:scale-105 transition-all duration-300" data-testid="btn-contact">
+            className={`px-6 py-3 rounded-xl font-semibold hover:scale-105 transition-all duration-300 border
+              ${isDark ? "border-[#1E1E2E] text-[#F0F0F5] hover:border-[#6C63FF]/60 hover:bg-white/5" : "border-[#E2E2F0] text-[#1A1A2E] hover:border-[#6C63FF]/60 hover:bg-[#6C63FF]/5"}`} data-testid="btn-contact">
             {t("hero.btn.contact")}
           </a>
           <a href="cv/Gorashe_Suliman_CV_EN.pdf" download
-            className="px-6 py-3 rounded-xl border border-[#334155] text-[#94A3B8] font-medium hover:border-[#334155]/80
-              hover:bg-white/5 transition-all duration-300 text-sm" data-testid="btn-cv-en">
+            className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 text-sm border
+              ${isDark ? "border-[#1E1E2E] text-[#8B8B9E] hover:bg-white/5" : "border-[#E2E2F0] text-[#64748B] hover:bg-black/5"}`} data-testid="btn-cv-en">
             CV (EN)
           </a>
           <a href="cv/Gorashe_Suliman_CV_DE.pdf" download
-            className="px-6 py-3 rounded-xl border border-[#334155] text-[#94A3B8] font-medium hover:border-[#334155]/80
-              hover:bg-white/5 transition-all duration-300 text-sm" data-testid="btn-cv-de">
+            className={`px-6 py-3 rounded-xl font-medium transition-all duration-300 text-sm border
+              ${isDark ? "border-[#1E1E2E] text-[#8B8B9E] hover:bg-white/5" : "border-[#E2E2F0] text-[#64748B] hover:bg-black/5"}`} data-testid="btn-cv-de">
             Lebenslauf (DE)
           </a>
         </div>
@@ -134,16 +143,17 @@ function Hero() {
           ].map(({ href, icon: Icon, label }) => (
             <a key={label} href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer"
               aria-label={label} data-testid={`link-social-${label.toLowerCase()}`}
-              className="w-11 h-11 rounded-xl flex items-center justify-center text-[#94A3B8] hover:text-[#F1F5F9]
-                bg-[#1E293B] border border-[#334155]/40 hover:border-[#6366F1]/50 hover:shadow-lg hover:shadow-indigo-500/20
-                hover:scale-110 transition-all duration-300">
+              className={`w-11 h-11 rounded-xl flex items-center justify-center border
+                hover:border-[#6C63FF]/50 hover:shadow-lg hover:shadow-[#6C63FF]/20 hover:scale-110 transition-all duration-300
+                ${isDark ? "text-[#8B8B9E] hover:text-[#F0F0F5] bg-[#12121A] border-[#1E1E2E]/60" : "text-[#64748B] hover:text-[#1A1A2E] bg-white border-[#E2E2F0]/80 shadow-sm"}`}>
               <Icon className="w-5 h-5" />
             </a>
           ))}
         </div>
 
         {/* Scroll hint */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce text-[#334155]">
+        <div className={`absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce
+          ${isDark ? "text-[#1E1E2E]" : "text-[#E2E2F0]"}`}>
           <ChevronDown className="w-6 h-6" />
         </div>
       </div>
@@ -154,6 +164,8 @@ function Hero() {
 // ─── ABOUT ────────────────────────────────────────────────────────────────
 function About() {
   const { language } = useLanguage();
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const base = import.meta.env.BASE_URL;
 
   const text = language === "de"
@@ -171,14 +183,15 @@ function About() {
   ];
 
   return (
-    <AnimSection id="about" className="py-24 bg-[#111827]">
+    <AnimSection id="about" className={`py-16 transition-colors duration-300 ${isDark ? "bg-[#0D0D15]" : "bg-[#F4F4F8]"}`}>
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
-        <SectionTitle en="About Me" de="Über mich" ar="عني" />
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+        <SectionTitle en="About Me" de="Über mich" ar="عني" isDark={isDark} />
+        <div className="grid md:grid-cols-2 gap-10 items-center">
           {/* Photo + text */}
           <div className="flex flex-col items-center md:items-start gap-6">
             <div className="relative">
-              <div className="w-44 h-44 rounded-2xl overflow-hidden border-2 border-[#6366F1]/40 shadow-xl shadow-indigo-500/20">
+              <div className={`w-44 h-44 rounded-2xl overflow-hidden border-2 border-[#6C63FF]/40 shadow-xl
+                ${isDark ? "shadow-[#6C63FF]/20" : "shadow-[#6C63FF]/10"}`}>
                 <img
                   src={`${base}images/profile-photo.jpg`}
                   alt="Gorashe Suliman"
@@ -189,22 +202,23 @@ function About() {
                   }}
                 />
               </div>
-              <div className="absolute -bottom-3 -right-3 w-10 h-10 rounded-xl bg-gradient-to-br from-[#6366F1] to-[#06B6D4]
+              <div className="absolute -bottom-3 -right-3 w-10 h-10 rounded-xl bg-gradient-to-br from-[#6C63FF] to-[#00D4FF]
                 flex items-center justify-center text-white font-bold text-xs shadow-lg">GS</div>
             </div>
             <div>
-              <span className="font-['Sora'] text-sm font-semibold text-[#6366F1] block mb-3 uppercase tracking-widest">{subtitle}</span>
-              <p className="text-[#94A3B8] text-base leading-relaxed">{text}</p>
+              <span className="font-['Sora'] text-sm font-semibold text-[#6C63FF] block mb-3 uppercase tracking-widest">{subtitle}</span>
+              <p className={`text-base leading-relaxed ${isDark ? "text-[#8B8B9E]" : "text-[#64748B]"}`}>{text}</p>
             </div>
           </div>
           <div className="flex flex-col gap-4">
             {infoCards.map(({ icon, label, value }) => (
-              <div key={label} className="flex items-start gap-4 p-4 rounded-xl bg-[#1E293B]/60 border border-[#334155]/40
-                hover:border-[#6366F1]/30 transition-all duration-300">
+              <div key={label} className={`flex items-start gap-4 p-4 rounded-xl border transition-all duration-300
+                hover:border-[#6C63FF]/30 backdrop-blur-sm
+                ${isDark ? "bg-[#12121A]/80 border-[#1E1E2E]/60" : "bg-white border-[#E2E2F0]/80 shadow-sm"}`}>
                 <span className="text-2xl">{icon}</span>
                 <div>
-                  <p className="text-xs font-semibold text-[#6366F1] uppercase tracking-wider mb-1">{label}</p>
-                  <p className="text-[#F1F5F9] text-sm font-medium">{value}</p>
+                  <p className="text-xs font-semibold text-[#6C63FF] uppercase tracking-wider mb-1">{label}</p>
+                  <p className={`text-sm font-medium ${isDark ? "text-[#F0F0F5]" : "text-[#1A1A2E]"}`}>{value}</p>
                 </div>
               </div>
             ))}
@@ -218,6 +232,8 @@ function About() {
 // ─── SERVICES ─────────────────────────────────────────────────────────────
 function Services() {
   const { language } = useLanguage();
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const services = [
     {
       icon: Code2,
@@ -246,21 +262,22 @@ function Services() {
   ];
 
   return (
-    <AnimSection id="services" className="py-24 bg-[#0A0E1A]">
+    <AnimSection id="services" className={`py-16 transition-colors duration-300 ${isDark ? "bg-[#0A0A0F]" : "bg-[#FAFAFA]"}`}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <SectionTitle en="What I Do" de="Was ich tue" ar="ماذا أفعل" />
+        <SectionTitle en="What I Do" de="Was ich tue" ar="ماذا أفعل" isDark={isDark} />
         <div className="grid md:grid-cols-3 gap-6">
           {services.map((s) => {
             const content = language === "de" ? s.de : language === "ar" ? s.ar : s.en;
             return (
               <div key={s.en.title}
-                className={`p-6 rounded-2xl bg-[#1E293B]/60 border border-[#334155]/40 hover:border-[#334155]/80
-                  hover:shadow-xl ${s.glow} backdrop-blur-sm transition-all duration-300 hover:-translate-y-1`}>
+                className={`p-6 rounded-2xl border backdrop-blur-sm transition-all duration-300 hover:-translate-y-1
+                  hover:shadow-xl ${s.glow}
+                  ${isDark ? "bg-[#12121A]/80 border-[#1E1E2E]/60 hover:border-[#1E1E2E]" : "bg-white border-[#E2E2F0]/80 hover:border-[#E2E2F0] shadow-sm"}`}>
                 <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${s.color} flex items-center justify-center mb-5 shadow-lg`}>
                   <s.icon className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="font-['Sora'] text-lg font-semibold text-[#F1F5F9] mb-3">{content.title}</h3>
-                <p className="text-[#94A3B8] text-sm leading-relaxed">{content.desc}</p>
+                <h3 className={`font-['Sora'] text-lg font-semibold mb-3 ${isDark ? "text-[#F0F0F5]" : "text-[#1A1A2E]"}`}>{content.title}</h3>
+                <p className={`text-sm leading-relaxed ${isDark ? "text-[#8B8B9E]" : "text-[#64748B]"}`}>{content.desc}</p>
               </div>
             );
           })}
@@ -316,6 +333,8 @@ function ProjectScreenshots({ base }: { base: string }) {
 }
 function Projects() {
   const { language } = useLanguage();
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const base = import.meta.env.BASE_URL;
 
   const featuredLabel = language === "de" ? "Ausgezeichnetes Projekt" : language === "ar" ? "مشروع مميز" : "Featured Project";
@@ -365,13 +384,14 @@ function Projects() {
   const expenseTech = ["Python", "Flask", "SQL", "HTML5", "CSS3", "JavaScript"];
 
   return (
-    <AnimSection id="projects" className="py-24 bg-[#111827]">
+    <AnimSection id="projects" className={`py-16 transition-colors duration-300 ${isDark ? "bg-[#0D0D15]" : "bg-[#F4F4F8]"}`}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <SectionTitle en="Featured Projects" de="Ausgewählte Projekte" ar="أبرز المشاريع" />
+        <SectionTitle en="Featured Projects" de="Ausgewählte Projekte" ar="أبرز المشاريع" isDark={isDark} />
 
         {/* SortTube — Featured */}
-        <div className="relative mb-10 p-6 md:p-8 rounded-2xl bg-[#1E293B]/80 border border-[#6366F1]/30
-          shadow-xl shadow-indigo-500/10 hover:shadow-indigo-500/20 transition-all duration-300 backdrop-blur-sm">
+        <div className={`relative mb-8 p-6 md:p-8 rounded-2xl border backdrop-blur-sm transition-all duration-300
+          shadow-xl hover:shadow-2xl
+          ${isDark ? "bg-[#12121A]/90 border-[#6C63FF]/25 shadow-[#6C63FF]/10 hover:shadow-[#6C63FF]/20" : "bg-white border-[#6C63FF]/20 shadow-[#6C63FF]/5 hover:shadow-[#6C63FF]/15"}`}>
           <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-gradient-to-r from-[#6366F1] to-[#06B6D4]
             text-white text-xs font-bold flex items-center gap-1.5">
             <Star className="w-3 h-3" /> {featuredLabel}
@@ -415,9 +435,9 @@ function Projects() {
               { label: sectionKeys.why, text: sorttubeBuild },
               { label: sectionKeys.challenges, text: sorttubeChallenge },
             ].map(({ label, text }) => (
-              <div key={label} className="p-4 rounded-xl bg-[#0A0E1A]/60 border border-[#334155]/40">
-                <p className="text-xs font-bold text-[#6366F1] uppercase tracking-wider mb-2">{label}</p>
-                <p className="text-[#94A3B8] text-sm leading-relaxed">{text}</p>
+              <div key={label} className={`p-4 rounded-xl border ${isDark ? "bg-[#0A0A0F]/60 border-[#1E1E2E]/60" : "bg-[#F4F4F8] border-[#E2E2F0]/80"}`}>
+                <p className="text-xs font-bold text-[#6C63FF] uppercase tracking-wider mb-2">{label}</p>
+                <p className={`text-sm leading-relaxed ${isDark ? "text-[#8B8B9E]" : "text-[#64748B]"}`}>{text}</p>
               </div>
             ))}
           </div>
@@ -442,19 +462,20 @@ function Projects() {
     { n: "2", l: language === "ar" ? "لغات" : language === "de" ? "Sprachen" : "Languages" },
     { n: "Android", l: language === "ar" ? "المنصة" : language === "de" ? "Plattform" : "Platform" },
   ].map(({ n, l }) => (
-    <div key={l} className="text-center p-3 rounded-xl bg-[#0A0E1A]/60 border border-[#334155]/40">
-      <p className="font-['Sora'] text-base font-bold text-[#6366F1] break-words">{n}</p>
-      <p className="text-[#94A3B8] text-xs mt-0.5 leading-tight">{l}</p>
+    <div key={l} className={`text-center p-3 rounded-xl border ${isDark ? "bg-[#0A0A0F]/60 border-[#1E1E2E]/60" : "bg-[#F4F4F8] border-[#E2E2F0]/80"}`}>
+      <p className="font-['Sora'] text-base font-bold text-[#6C63FF] break-words">{n}</p>
+      <p className={`text-xs mt-0.5 leading-tight ${isDark ? "text-[#8B8B9E]" : "text-[#64748B]"}`}>{l}</p>
     </div>
   ))}
 </div>
 
           {/* Tech Stack */}
           <div className="mb-6">
-            <p className="text-xs font-bold text-[#6366F1] uppercase tracking-wider mb-3">{sectionKeys.tech}</p>
+            <p className="text-xs font-bold text-[#6C63FF] uppercase tracking-wider mb-3">{sectionKeys.tech}</p>
             <div className="flex flex-wrap gap-2">
               {sorttubeTech.map((t) => (
-                <span key={t} className="px-3 py-1 rounded-lg bg-[#0A0E1A] border border-[#334155]/60 text-[#94A3B8] font-['JetBrains_Mono',monospace] text-xs">
+                <span key={t} className={`px-3 py-1 rounded-lg border font-['JetBrains_Mono',monospace] text-xs
+                  ${isDark ? "bg-[#0A0A0F] border-[#1E1E2E]/60 text-[#8B8B9E]" : "bg-[#F4F4F8] border-[#E2E2F0]/80 text-[#64748B]"}`}>
                   {t}
                 </span>
               ))}
@@ -484,38 +505,40 @@ function Projects() {
         </div>
 
         {/* Expense Tracker */}
-        <div className="p-6 md:p-8 rounded-2xl bg-[#1E293B]/60 border border-[#334155]/40
-          hover:border-[#334155]/80 hover:shadow-xl hover:shadow-black/20 transition-all duration-300">
+        <div className={`p-6 md:p-8 rounded-2xl border backdrop-blur-sm transition-all duration-300 hover:shadow-xl
+          ${isDark ? "bg-[#12121A]/80 border-[#1E1E2E]/60 hover:border-[#1E1E2E] hover:shadow-black/20" : "bg-white border-[#E2E2F0]/80 hover:border-[#E2E2F0] shadow-sm"}`}>
           <div className="flex items-start justify-between flex-wrap gap-4 mb-4">
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <span className="px-2.5 py-0.5 rounded-full bg-[#06B6D4]/10 border border-[#06B6D4]/30 text-[#06B6D4] text-xs font-bold">CS50</span>
-                <span className="text-[#94A3B8] text-xs">
+                <span className="px-2.5 py-0.5 rounded-full bg-[#00D4FF]/10 border border-[#00D4FF]/30 text-[#00D4FF] text-xs font-bold">CS50</span>
+                <span className={`text-xs ${isDark ? "text-[#8B8B9E]" : "text-[#64748B]"}`}>
                   {language === "ar" ? "مشروع تخرج" : language === "de" ? "Abschlussprojekt" : "Final Project"}
                 </span>
               </div>
-              <h3 className="font-['Sora'] text-xl font-bold text-[#F1F5F9]">{expenseTitle}</h3>
-              <p className="text-[#94A3B8] text-sm mt-1">
+              <h3 className={`font-['Sora'] text-xl font-bold ${isDark ? "text-[#F0F0F5]" : "text-[#1A1A2E]"}`}>{expenseTitle}</h3>
+              <p className={`text-sm mt-1 ${isDark ? "text-[#8B8B9E]" : "text-[#64748B]"}`}>
                 {language === "de" ? "Full-Stack-Webanwendung · Apr 2026" : language === "ar" ? "تطبيق ويب متكامل · أبريل 2026" : "Full-Stack Web Application · Apr 2026"}
               </p>
             </div>
           </div>
-          <p className="text-[#94A3B8] text-sm leading-relaxed mb-4">{expenseDesc}</p>
+          <p className={`text-sm leading-relaxed mb-4 ${isDark ? "text-[#8B8B9E]" : "text-[#64748B]"}`}>{expenseDesc}</p>
           {/* Desktop screenshot */}
-          <div className="rounded-xl overflow-hidden border border-[#334155]/40 mb-5 max-h-40">
+          <div className={`rounded-xl overflow-hidden border mb-5 max-h-40 ${isDark ? "border-[#1E1E2E]/60" : "border-[#E2E2F0]/80"}`}>
             <img src={`${base}images/expense-tracker-desktop.png`} alt="Expense Tracker" loading="lazy"
               className="w-full object-cover object-top"
               onError={(e) => { (e.target as HTMLImageElement).parentElement!.style.display = "none"; }} />
           </div>
           <div className="flex flex-wrap gap-2 mb-5">
             {expenseTech.map((t) => (
-              <span key={t} className="px-3 py-1 rounded-lg bg-[#0A0E1A] border border-[#334155]/60 text-[#94A3B8] font-['JetBrains_Mono',monospace] text-xs">{t}</span>
+              <span key={t} className={`px-3 py-1 rounded-lg border font-['JetBrains_Mono',monospace] text-xs
+                ${isDark ? "bg-[#0A0A0F] border-[#1E1E2E]/60 text-[#8B8B9E]" : "bg-[#F4F4F8] border-[#E2E2F0]/80 text-[#64748B]"}`}>{t}</span>
             ))}
           </div>
           <a href="https://github.com/qurashi512/Expense-Tracker" target="_blank" rel="noopener noreferrer"
             data-testid="btn-expense-github"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-[#334155] text-[#F1F5F9] font-semibold text-sm
-              hover:border-[#6366F1]/50 hover:bg-white/5 transition-all duration-300">
+            className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border font-semibold text-sm transition-all duration-300
+              hover:border-[#6C63FF]/50 hover:bg-[#6C63FF]/5
+              ${isDark ? "border-[#1E1E2E] text-[#F0F0F5]" : "border-[#E2E2F0] text-[#1A1A2E]"}`}>
             <Github className="w-4 h-4" /> {viewGH}
           </a>
         </div>
@@ -527,6 +550,8 @@ function Projects() {
 // ─── SKILLS ───────────────────────────────────────────────────────────────
 function Skills() {
   const { language } = useLanguage();
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const cats = [
     {
       en: "Mobile Development", de: "Mobile-Entwicklung", ar: "تطوير الجوال",
@@ -555,15 +580,16 @@ function Skills() {
   ];
 
   return (
-    <AnimSection id="skills" className="py-24 bg-[#0A0E1A]">
+    <AnimSection id="skills" className={`py-16 transition-colors duration-300 ${isDark ? "bg-[#0A0A0F]" : "bg-[#FAFAFA]"}`}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <SectionTitle en="Technical Skills" de="Technische Fähigkeiten" ar="المهارات التقنية" />
+        <SectionTitle en="Technical Skills" de="Technische Fähigkeiten" ar="المهارات التقنية" isDark={isDark} />
         <div className="grid sm:grid-cols-2 gap-6">
           {cats.map((cat) => {
             const label = language === "de" ? cat.de : language === "ar" ? cat.ar : cat.en;
             return (
-              <div key={cat.en} className={`p-6 rounded-2xl bg-[#1E293B]/60 border transition-all duration-300 ${cat.color}`}>
-                <h3 className="font-['Sora'] text-base font-semibold text-[#F1F5F9] mb-4">{label}</h3>
+              <div key={cat.en} className={`p-6 rounded-2xl border backdrop-blur-sm transition-all duration-300 ${cat.color}
+                ${isDark ? "bg-[#12121A]/80" : "bg-white shadow-sm"}`}>
+                <h3 className={`font-['Sora'] text-base font-semibold mb-4 ${isDark ? "text-[#F0F0F5]" : "text-[#1A1A2E]"}`}>{label}</h3>
                 <div className="flex flex-wrap gap-2">
                   {cat.skills.map((s) => (
                     <span key={s} className={`px-3 py-1.5 rounded-lg border text-xs font-['JetBrains_Mono',monospace] font-medium ${cat.badge}`}>{s}</span>
@@ -581,6 +607,8 @@ function Skills() {
 // ─── TOP CERTS ────────────────────────────────────────────────────────────
 function TopCerts() {
   const { t, language } = useLanguage();
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const verifyLabel = language === "de" ? "Verifizieren" : language === "ar" ? "التحقق" : "Verify";
 
   const certs = [
@@ -614,26 +642,30 @@ function TopCerts() {
   ];
 
   return (
-    <AnimSection id="certifications" className="py-24 bg-[#111827]">
+    <AnimSection id="certifications" className={`py-16 transition-colors duration-300 ${isDark ? "bg-[#0D0D15]" : "bg-[#F4F4F8]"}`}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <SectionTitle en="Top Certifications" de="Top-Zertifikate" ar="أبرز الشهادات" />
-        <div className="grid md:grid-cols-3 gap-6 mb-10">
+        <SectionTitle en="Top Certifications" de="Top-Zertifikate" ar="أبرز الشهادات" isDark={isDark} />
+        <div className="grid md:grid-cols-3 gap-6 mb-8">
           {certs.map((c) => (
-            <div key={c.title} className={`p-6 rounded-2xl bg-[#1E293B]/60 border border-[#334155]/40 hover:shadow-xl
-              ${c.color} transition-all duration-300 flex flex-col`}>
+            <div key={c.title} className={`p-6 rounded-2xl border backdrop-blur-sm hover:shadow-xl
+              ${c.color} transition-all duration-300 flex flex-col
+              ${isDark ? "bg-[#12121A]/80 border-[#1E1E2E]/60" : "bg-white border-[#E2E2F0]/80 shadow-sm"}`}>
               <div className="h-10 flex items-center mb-5">
-                <img src={c.logo} alt={c.issuer} className="max-h-8 max-w-[120px] object-contain brightness-[0.9]" loading="lazy" />
+                <img src={c.logo} alt={c.issuer}
+                  className={`max-h-8 max-w-[120px] object-contain ${isDark ? "brightness-[0.9]" : "brightness-[0.7]"}`}
+                  loading="lazy" />
               </div>
-              <h3 className="font-['Sora'] text-sm font-semibold text-[#F1F5F9] mb-1 leading-snug flex-1">{c.title}</h3>
-              <p className="text-[#94A3B8] text-xs mb-1">{c.issuer}</p>
-              <p className="text-[#6366F1] text-xs font-medium mb-4">{c.date}</p>
+              <h3 className={`font-['Sora'] text-sm font-semibold mb-1 leading-snug flex-1 ${isDark ? "text-[#F0F0F5]" : "text-[#1A1A2E]"}`}>{c.title}</h3>
+              <p className={`text-xs mb-1 ${isDark ? "text-[#8B8B9E]" : "text-[#64748B]"}`}>{c.issuer}</p>
+              <p className="text-[#6C63FF] text-xs font-medium mb-4">{c.date}</p>
               <div className="flex flex-wrap gap-1.5 mb-5">
                 {c.skills.map((s) => (
-                  <span key={s} className="px-2 py-0.5 rounded-md bg-[#0A0E1A] border border-[#334155]/60 text-[#94A3B8] text-[10px]">{s}</span>
+                  <span key={s} className={`px-2 py-0.5 rounded-md border text-[10px]
+                    ${isDark ? "bg-[#0A0A0F] border-[#1E1E2E]/60 text-[#8B8B9E]" : "bg-[#F4F4F8] border-[#E2E2F0]/80 text-[#64748B]"}`}>{s}</span>
                 ))}
               </div>
               <a href={c.verify} target="_blank" rel="noopener noreferrer"
-                className="mt-auto flex items-center gap-1.5 text-[#6366F1] hover:text-[#818CF8] text-xs font-medium transition-colors">
+                className="mt-auto flex items-center gap-1.5 text-[#6C63FF] hover:text-[#8B85FF] text-xs font-medium transition-colors">
                 <ExternalLink className="w-3.5 h-3.5" /> {verifyLabel}
               </a>
             </div>
@@ -641,8 +673,8 @@ function TopCerts() {
         </div>
         <div className="text-center">
           <Link href="/certifications">
-            <span className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-[#6366F1]/40 text-[#6366F1] font-semibold text-sm
-              hover:bg-[#6366F1]/10 hover:border-[#6366F1]/70 transition-all duration-300 cursor-pointer">
+            <span className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-[#6C63FF]/40 text-[#6C63FF] font-semibold text-sm
+              hover:bg-[#6C63FF]/10 hover:border-[#6C63FF]/70 transition-all duration-300 cursor-pointer">
               {t("certs.viewAll")} →
             </span>
           </Link>
@@ -779,10 +811,12 @@ function TopLanguagesCard() {
 // ─── GITHUB ───────────────────────────────────────────────────────────────
 function GitHubActivity() {
   const { t, language } = useLanguage();
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const username = "qurashi512";
   const [stats, setStats] = useState<{ repos: number; stars: number; followers: number; following: number } | null>(null);
   const [langs, setLangs] = useState<{ name: string; pct: number; color: string }[]>([]);
-  const COLORS = ["#6366F1","#06B6D4","#A855F7","#F59E0B","#10B981","#EF4444","#F97316","#EC4899"];
+  const COLORS = ["#6C63FF","#00D4FF","#A855F7","#F59E0B","#3DDC84","#EF4444","#F97316","#EC4899"];
 
   useEffect(() => {
     fetch(`https://api.github.com/users/${username}`)
@@ -810,17 +844,18 @@ function GitHubActivity() {
   };
 
   return (
-    <AnimSection id="github" className="py-24 bg-[#0A0E1A]">
+    <AnimSection id="github" className={`py-16 transition-colors duration-300 ${isDark ? "bg-[#0A0A0F]" : "bg-[#FAFAFA]"}`}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <SectionTitle en="GitHub Activity" de="GitHub-Aktivität" ar="نشاط GitHub" />
+        <SectionTitle en="GitHub Activity" de="GitHub-Aktivität" ar="نشاط GitHub" isDark={isDark} />
 
         {/* Stats + Languages */}
         <div className="grid md:grid-cols-2 gap-6 mb-6">
 
           {/* GitHub Stats */}
-          <div className="p-6 rounded-2xl bg-[#1E293B]/60 border border-[#334155]/40
-            hover:border-[#6366F1]/30 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300">
-            <p className="text-xs font-semibold text-[#6366F1] uppercase tracking-wider mb-4">GitHub Stats</p>
+          <div className={`p-6 rounded-2xl border backdrop-blur-sm
+            hover:border-[#6C63FF]/30 hover:shadow-xl hover:shadow-[#6C63FF]/10 transition-all duration-300
+            ${isDark ? "bg-[#12121A]/80 border-[#1E1E2E]/60" : "bg-white border-[#E2E2F0]/80 shadow-sm"}`}>
+            <p className="text-xs font-semibold text-[#6C63FF] uppercase tracking-wider mb-4">GitHub Stats</p>
             {stats ? (
               <div className="grid grid-cols-2 gap-4">
                 {([
@@ -829,10 +864,10 @@ function GitHubActivity() {
                   { label: statLabels.followers, value: stats.followers, icon: "👥" },
                   { label: statLabels.following, value: stats.following, icon: "➕" },
                 ] as { label: string; value: number; icon: string }[]).map(({ label, value, icon }) => (
-                  <div key={label} className="p-3 rounded-xl bg-[#0A0E1A]/60 border border-[#334155]/30 text-center">
+                  <div key={label} className={`p-3 rounded-xl border text-center ${isDark ? "bg-[#0A0A0F]/60 border-[#1E1E2E]/60" : "bg-[#F4F4F8] border-[#E2E2F0]/80"}`}>
                     <div className="text-2xl mb-1">{icon}</div>
-                    <div className="text-2xl font-bold text-[#6366F1] font-['Sora']">{value}</div>
-                    <div className="text-xs text-[#94A3B8] mt-0.5">{label}</div>
+                    <div className={`text-2xl font-bold text-[#6C63FF] font-['Sora']`}>{value}</div>
+                    <div className={`text-xs mt-0.5 ${isDark ? "text-[#8B8B9E]" : "text-[#64748B]"}`}>{label}</div>
                   </div>
                 ))}
               </div>
@@ -844,9 +879,10 @@ function GitHubActivity() {
           </div>
 
           {/* Top Languages */}
-          <div className="p-6 rounded-2xl bg-[#1E293B]/60 border border-[#334155]/40
-            hover:border-[#6366F1]/30 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300">
-            <p className="text-xs font-semibold text-[#6366F1] uppercase tracking-wider mb-4">
+          <div className={`p-6 rounded-2xl border backdrop-blur-sm
+            hover:border-[#6C63FF]/30 hover:shadow-xl hover:shadow-[#6C63FF]/10 transition-all duration-300
+            ${isDark ? "bg-[#12121A]/80 border-[#1E1E2E]/60" : "bg-white border-[#E2E2F0]/80 shadow-sm"}`}>
+            <p className="text-xs font-semibold text-[#6C63FF] uppercase tracking-wider mb-4">
               {language === "ar" ? "أكثر اللغات استخداماً" : language === "de" ? "Top-Sprachen" : "Top Languages"}
             </p>
             {langs.length > 0 ? (
@@ -854,8 +890,8 @@ function GitHubActivity() {
                 {langs.map(({ name, pct, color }) => (
                   <div key={name}>
                     <div className="flex justify-between text-xs mb-1">
-                      <span className="text-[#F1F5F9] font-medium">{name}</span>
-                      <span className="text-[#94A3B8]">{pct}%</span>
+                      <span className={`font-medium ${isDark ? "text-[#F0F0F5]" : "text-[#1A1A2E]"}`}>{name}</span>
+                      <span className={isDark ? "text-[#8B8B9E]" : "text-[#64748B]"}>{pct}%</span>
                     </div>
                     <div className="h-2 rounded-full bg-[#0A0E1A]">
                       <div className="h-2 rounded-full transition-all duration-700" style={{ width: `${pct}%`, backgroundColor: color }} />
@@ -872,19 +908,20 @@ function GitHubActivity() {
         </div>
 
         {/* Contribution Graph — full width */}
-        <div className="p-6 rounded-2xl bg-[#1E293B]/60 border border-[#334155]/40
-          hover:border-[#6366F1]/30 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300">
-          <p className="text-xs font-semibold text-[#6366F1] uppercase tracking-wider mb-4">Contribution Graph</p>
+        <div className={`p-6 rounded-2xl border backdrop-blur-sm
+          hover:border-[#6C63FF]/30 hover:shadow-xl hover:shadow-[#6C63FF]/10 transition-all duration-300
+          ${isDark ? "bg-[#12121A]/80 border-[#1E1E2E]/60" : "bg-white border-[#E2E2F0]/80 shadow-sm"}`}>
+          <p className="text-xs font-semibold text-[#6C63FF] uppercase tracking-wider mb-4">Contribution Graph</p>
           <div className="overflow-x-auto">
             <img
-              src={`https://ghchart.rshah.org/6366F1/${username}`}
+              src={`https://ghchart.rshah.org/6C63FF/${username}`}
               alt="Contribution Graph"
               loading="lazy"
               className="rounded-lg min-w-[600px] w-full"
               style={{ imageRendering: "crisp-edges" }}
             />
           </div>
-          <p className="text-xs text-[#475569] mt-2 text-center">
+          <p className={`text-xs mt-2 text-center ${isDark ? "text-[#8B8B9E]" : "text-[#64748B]"}`}>
             {language === "ar" ? "اسحب للتمرير →" : language === "de" ? "Zum Scrollen ziehen →" : "Swipe to scroll →"}
           </p>
         </div>
@@ -896,16 +933,18 @@ function GitHubActivity() {
 // ─── LANGUAGES ────────────────────────────────────────────────────────────
 function LanguageSkills() {
   const { language } = useLanguage();
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const title = language === "de" ? "Sprachkenntnisse" : language === "ar" ? "مهارات اللغة" : "Language Skills";
   const langs = [
     {
       en: "Arabic", de: "Arabisch", ar: "العربية",
       level: language === "de" ? "Muttersprache" : language === "ar" ? "اللغة الأم" : "Native",
-      cefr: "C2", pct: 100, color: "from-[#6366F1] to-[#818CF8]",
+      cefr: "C2", pct: 100, color: "from-[#6C63FF] to-[#8B85FF]",
     },
     {
       en: "German", de: "Deutsch", ar: "الألمانية",
-      level: "B2", cefr: "B2", pct: 75, color: "from-[#06B6D4] to-[#38BDF8]",
+      level: "B2", cefr: "B2", pct: 75, color: "from-[#00D4FF] to-[#38E8FF]",
     },
     {
       en: "English", de: "Englisch", ar: "الإنجليزية",
@@ -914,27 +953,29 @@ function LanguageSkills() {
   ];
 
   return (
-    <AnimSection className="py-24 bg-[#111827]">
+    <AnimSection className={`py-16 transition-colors duration-300 ${isDark ? "bg-[#0D0D15]" : "bg-[#F4F4F8]"}`}>
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
-        <div className="text-center mb-14">
-          <h2 className="font-['Sora'] text-3xl md:text-4xl font-bold text-[#F1F5F9] mb-3">{title}</h2>
-          <div className="w-16 h-1 bg-gradient-to-r from-[#6366F1] to-[#06B6D4] rounded-full mx-auto" />
+        <div className="text-center mb-10">
+          <h2 className={`font-['Sora'] text-3xl md:text-4xl font-bold mb-3 ${isDark ? "text-[#F0F0F5]" : "text-[#1A1A2E]"}`}>{title}</h2>
+          <div className="w-16 h-1 bg-gradient-to-r from-[#6C63FF] to-[#00D4FF] rounded-full mx-auto" />
         </div>
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-4">
           {langs.map((l) => {
             const name = language === "de" ? l.de : language === "ar" ? l.ar : l.en;
             return (
-              <div key={l.en} className="p-5 rounded-2xl bg-[#1E293B]/60 border border-[#334155]/40">
+              <div key={l.en} className={`p-5 rounded-2xl border backdrop-blur-sm transition-colors duration-300
+                ${isDark ? "bg-[#12121A]/80 border-[#1E1E2E]/60" : "bg-white border-[#E2E2F0]/80 shadow-sm"}`}>
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-3">
-                    <span className="font-['Sora'] text-base font-semibold text-[#F1F5F9]">{name}</span>
-                    <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-[#0A0E1A] border border-[#334155]/60 text-[#94A3B8]">
+                    <span className={`font-['Sora'] text-base font-semibold ${isDark ? "text-[#F0F0F5]" : "text-[#1A1A2E]"}`}>{name}</span>
+                    <span className={`px-2 py-0.5 rounded-full text-xs font-bold border
+                      ${isDark ? "bg-[#0A0A0F] border-[#1E1E2E]/60 text-[#8B8B9E]" : "bg-[#F4F4F8] border-[#E2E2F0]/80 text-[#64748B]"}`}>
                       {l.cefr}
                     </span>
                   </div>
-                  <span className="text-[#94A3B8] text-sm font-medium">{l.level}</span>
+                  <span className={`text-sm font-medium ${isDark ? "text-[#8B8B9E]" : "text-[#64748B]"}`}>{l.level}</span>
                 </div>
-                <div className="h-2 rounded-full bg-[#0A0E1A] overflow-hidden">
+                <div className={`h-2 rounded-full overflow-hidden ${isDark ? "bg-[#0A0A0F]" : "bg-[#E2E2F0]"}`}>
                   <div className={`h-full rounded-full bg-gradient-to-r ${l.color}`} style={{ width: `${l.pct}%` }} />
                 </div>
               </div>
@@ -961,9 +1002,10 @@ interface Testimonial {
 
 function Testimonials() {
   const { language } = useLanguage();
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const [items, setItems] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     fetch(`${SB_URL}/testimonials?order=created_at.desc&limit=2`, { headers: SB_HEADERS })
       .then((r) => r.json())
@@ -977,30 +1019,31 @@ function Testimonials() {
   const noReviews = language === "de" ? "Noch keine Referenzen. Sei der Erste!" : language === "ar" ? "لا توجد آراء بعد. كن أول من يكتب!" : "No reviews yet. Be the first!";
 
   return (
-    <AnimSection id="testimonials" className="py-24 bg-[#0A0E1A]">
+    <AnimSection id="testimonials" className={`py-16 transition-colors duration-300 ${isDark ? "bg-[#0A0A0F]" : "bg-[#FAFAFA]"}`}>
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
-        <SectionTitle en="Testimonials" de="Referenzen" ar="آراء الآخرين" />
+        <SectionTitle en="Testimonials" de="Referenzen" ar="آراء الآخرين" isDark={isDark} />
 
         {loading ? (
           <div className="flex justify-center py-12">
-            <div className="w-8 h-8 border-2 border-[#6366F1] border-t-transparent rounded-full animate-spin" />
+            <div className="w-8 h-8 border-2 border-[#6C63FF] border-t-transparent rounded-full animate-spin" />
           </div>
         ) : items.length === 0 ? (
-          <div className="text-center py-12 text-[#94A3B8]">{noReviews}</div>
+          <div className={`text-center py-12 ${isDark ? "text-[#8B8B9E]" : "text-[#64748B]"}`}>{noReviews}</div>
         ) : (
           <div className="grid md:grid-cols-2 gap-6 mb-8">
             {items.map((item) => (
-              <div key={item.id} className="p-6 rounded-2xl bg-[#1E293B]/60 border border-[#334155]/40 relative
-                hover:border-[#6366F1]/30 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300 flex flex-col">
-                <Quote className="w-8 h-8 text-[#6366F1]/20 mb-4" />
-                <p className="text-[#94A3B8] text-sm leading-relaxed italic flex-1">&ldquo;{item.message}&rdquo;</p>
-                <div className="flex items-center gap-3 mt-5 pt-4 border-t border-[#334155]/40">
-                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#6366F1] to-[#06B6D4] flex items-center justify-center text-white font-bold text-xs flex-shrink-0">
+              <div key={item.id} className={`p-6 rounded-2xl border relative backdrop-blur-sm
+                hover:border-[#6C63FF]/30 hover:shadow-xl hover:shadow-[#6C63FF]/10 transition-all duration-300 flex flex-col
+                ${isDark ? "bg-[#12121A]/80 border-[#1E1E2E]/60" : "bg-white border-[#E2E2F0]/80 shadow-sm"}`}>
+                <Quote className="w-8 h-8 text-[#6C63FF]/20 mb-4" />
+                <p className={`text-sm leading-relaxed italic flex-1 ${isDark ? "text-[#8B8B9E]" : "text-[#64748B]"}`}>&ldquo;{item.message}&rdquo;</p>
+                <div className={`flex items-center gap-3 mt-5 pt-4 border-t ${isDark ? "border-[#1E1E2E]/60" : "border-[#E2E2F0]/80"}`}>
+                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#6C63FF] to-[#00D4FF] flex items-center justify-center text-white font-bold text-xs flex-shrink-0">
                     {item.name.slice(0, 2).toUpperCase()}
                   </div>
                   <div>
-                    <p className="font-['Sora'] text-sm font-semibold text-[#F1F5F9]">{item.name}</p>
-                    {item.role && <p className="text-[#94A3B8] text-xs">{item.role}</p>}
+                    <p className={`font-['Sora'] text-sm font-semibold ${isDark ? "text-[#F0F0F5]" : "text-[#1A1A2E]"}`}>{item.name}</p>
+                    {item.role && <p className={`text-xs ${isDark ? "text-[#8B8B9E]" : "text-[#64748B]"}`}>{item.role}</p>}
                   </div>
                 </div>
               </div>
@@ -1010,14 +1053,14 @@ function Testimonials() {
 
         <div className="flex flex-wrap justify-center gap-3">
           <Link href="/testimonials">
-            <span className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-[#6366F1]/40 text-[#6366F1]
-              font-semibold text-sm hover:bg-[#6366F1]/10 hover:border-[#6366F1]/70 transition-all duration-300 cursor-pointer">
+            <span className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-[#6C63FF]/40 text-[#6C63FF]
+              font-semibold text-sm hover:bg-[#6C63FF]/10 hover:border-[#6C63FF]/70 transition-all duration-300 cursor-pointer">
               {viewAll} →
             </span>
           </Link>
           <Link href="/testimonials#write">
-            <span className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#6366F1] text-white
-              font-semibold text-sm hover:bg-[#4F46E5] transition-all duration-300 cursor-pointer">
+            <span className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#6C63FF] text-white
+              font-semibold text-sm hover:bg-[#5A52E0] transition-all duration-300 cursor-pointer">
               ✍️ {leaveReview}
             </span>
           </Link>
@@ -1030,6 +1073,8 @@ function Testimonials() {
 // ─── CONTACT ──────────────────────────────────────────────────────────────
 function Contact() {
   const { t, language } = useLanguage();
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
 
@@ -1056,10 +1101,10 @@ function Contact() {
   const downloadDE = language === "de" ? "Lebenslauf (DE)" : language === "ar" ? "CV (ألماني)" : "Download CV (DE)";
 
   return (
-    <AnimSection id="contact" className="py-24 bg-[#111827]">
+    <AnimSection id="contact" className={`py-16 transition-colors duration-300 ${isDark ? "bg-[#0D0D15]" : "bg-[#F4F4F8]"}`}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <SectionTitle en="Get in Touch" de="Kontakt aufnehmen" ar="تواصل معي" />
-        <div className="grid md:grid-cols-2 gap-12">
+        <SectionTitle en="Get in Touch" de="Kontakt aufnehmen" ar="تواصل معي" isDark={isDark} />
+        <div className="grid md:grid-cols-2 gap-10">
           {/* Info */}
           <div>
             <div className="flex flex-col gap-4 mb-8">
@@ -1068,16 +1113,18 @@ function Contact() {
                 { icon: Phone,     label: "Phone",    labelAr: "الهاتف",   labelDe: "Telefon",  value: "+20 101 073 6525",             href: "tel:+201010736525" },
                 { icon: MapPin,    label: "Location", labelAr: "الموقع",   labelDe: "Standort", value: "Cairo, Egypt → Germany 🇩🇪",   href: null },
               ].map(({ icon: Icon, label, labelAr, labelDe, value, href }) => (
-               <div key={label} className="flex items-center gap-4 p-4 rounded-xl bg-[#1E293B]/60 border border-[#334155]/40">
-                 <div className="w-10 h-10 rounded-lg bg-[#0A0E1A] border border-[#334155]/40 flex items-center justify-center">
-                   <Icon className="w-4 h-4 text-[#6366F1]" />
+               <div key={label} className={`flex items-center gap-4 p-4 rounded-xl border backdrop-blur-sm
+                 ${isDark ? "bg-[#12121A]/80 border-[#1E1E2E]/60" : "bg-white border-[#E2E2F0]/80 shadow-sm"}`}>
+                 <div className={`w-10 h-10 rounded-lg border flex items-center justify-center
+                   ${isDark ? "bg-[#0A0A0F] border-[#1E1E2E]/60" : "bg-[#F4F4F8] border-[#E2E2F0]/80"}`}>
+                   <Icon className="w-4 h-4 text-[#6C63FF]" />
                  </div>
                  <div>
-                   <p className="text-xs font-semibold text-[#6366F1] uppercase tracking-wider">
+                   <p className="text-xs font-semibold text-[#6C63FF] uppercase tracking-wider">
                      {language === "ar" ? labelAr : language === "de" ? labelDe : label}
                    </p>
-                   {href ? <a href={href} className="text-[#F1F5F9] text-sm hover:text-[#6366F1] transition-colors">{value}</a>
-                     : <p className="text-[#F1F5F9] text-sm">{value}</p>}
+                   {href ? <a href={href} className={`text-sm hover:text-[#6C63FF] transition-colors ${isDark ? "text-[#F0F0F5]" : "text-[#1A1A2E]"}`}>{value}</a>
+                     : <p className={`text-sm ${isDark ? "text-[#F0F0F5]" : "text-[#1A1A2E]"}`}>{value}</p>}
                  </div>
                </div>
              ))}
@@ -1090,16 +1137,18 @@ function Contact() {
                 { label: "LinkedIn", sub: "qurashi512", href: "https://linkedin.com/in/qurashi512", icon: Linkedin },
               ].map(({ label, sub, href, icon: Icon }) => (
                 <a key={label} href={href} target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-4 p-4 rounded-xl bg-[#1E293B]/60 border border-[#334155]/40
-                    hover:border-[#6366F1]/40 hover:shadow-lg hover:shadow-indigo-500/10 transition-all duration-300">
-                  <div className="w-10 h-10 rounded-lg bg-[#0A0E1A] border border-[#334155]/40 flex items-center justify-center">
-                    <Icon className="w-4 h-4 text-[#94A3B8]" />
+                  className={`flex items-center gap-4 p-4 rounded-xl border backdrop-blur-sm
+                    hover:border-[#6C63FF]/40 hover:shadow-lg hover:shadow-[#6C63FF]/10 transition-all duration-300
+                    ${isDark ? "bg-[#12121A]/80 border-[#1E1E2E]/60" : "bg-white border-[#E2E2F0]/80 shadow-sm"}`}>
+                  <div className={`w-10 h-10 rounded-lg border flex items-center justify-center
+                    ${isDark ? "bg-[#0A0A0F] border-[#1E1E2E]/60" : "bg-[#F4F4F8] border-[#E2E2F0]/80"}`}>
+                    <Icon className={`w-4 h-4 ${isDark ? "text-[#8B8B9E]" : "text-[#64748B]"}`} />
                   </div>
                   <div className="flex-1">
-                    <p className="text-[#F1F5F9] text-sm font-semibold">{label}</p>
-                    <p className="text-[#94A3B8] text-xs">{sub}</p>
+                    <p className={`text-sm font-semibold ${isDark ? "text-[#F0F0F5]" : "text-[#1A1A2E]"}`}>{label}</p>
+                    <p className={`text-xs ${isDark ? "text-[#8B8B9E]" : "text-[#64748B]"}`}>{sub}</p>
                   </div>
-                  <ExternalLink className="w-4 h-4 text-[#334155]" />
+                  <ExternalLink className={`w-4 h-4 ${isDark ? "text-[#1E1E2E]" : "text-[#E2E2F0]"}`} />
                 </a>
               ))}
             </div>
@@ -1107,13 +1156,14 @@ function Contact() {
             {/* CV */}
             <div className="flex flex-wrap gap-3">
               <a href="cv/Gorashe_Suliman_CV_EN.pdf" download
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#6366F1] to-[#06B6D4]
-                  text-white font-semibold text-sm hover:shadow-lg hover:shadow-indigo-500/30 transition-all duration-300">
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#6C63FF] to-[#00D4FF]
+                  text-white font-semibold text-sm hover:shadow-lg hover:shadow-[#6C63FF]/30 transition-all duration-300">
                 ↓ {downloadEN}
               </a>
               <a href="cv/Gorashe_Suliman_CV_DE.pdf" download
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-[#334155] text-[#F1F5F9] font-semibold text-sm
-                  hover:border-[#6366F1]/50 hover:bg-white/5 transition-all duration-300">
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border font-semibold text-sm transition-all duration-300
+                  hover:border-[#6C63FF]/50 hover:bg-[#6C63FF]/5
+                  ${isDark ? "border-[#1E1E2E] text-[#F0F0F5]" : "border-[#E2E2F0] text-[#1A1A2E]"}`}>
                 ↓ {downloadDE}
               </a>
             </div>
@@ -1127,29 +1177,31 @@ function Contact() {
               { key: "subject", type: "text", labelKey: "contact.subject" },
             ].map(({ key, type, labelKey }) => (
               <div key={key}>
-                <label className="block text-xs font-semibold text-[#6366F1] uppercase tracking-wider mb-1.5">{t(labelKey)}</label>
+                <label className="block text-xs font-semibold text-[#6C63FF] uppercase tracking-wider mb-1.5">{t(labelKey)}</label>
                 <input type={type} value={(form as Record<string, string>)[key]} required
                   onChange={(e) => setForm({ ...form, [key]: e.target.value })}
                   data-testid={`input-${key}`}
-                  className="w-full px-4 py-3 rounded-xl bg-[#1E293B] border border-[#334155]/60 text-[#F1F5F9] text-sm
-                    placeholder:text-[#334155] focus:outline-none focus:border-[#6366F1]/60 focus:shadow-lg focus:shadow-indigo-500/10
-                    transition-all duration-300" />
+                  className={`w-full px-4 py-3 rounded-xl border text-sm
+                    focus:outline-none focus:border-[#6C63FF]/60 focus:shadow-lg focus:shadow-[#6C63FF]/10
+                    transition-all duration-300
+                    ${isDark ? "bg-[#12121A] border-[#1E1E2E]/60 text-[#F0F0F5] placeholder:text-[#1E1E2E]" : "bg-white border-[#E2E2F0]/80 text-[#1A1A2E] placeholder:text-[#E2E2F0]"}`} />
               </div>
             ))}
             <div>
-              <label className="block text-xs font-semibold text-[#6366F1] uppercase tracking-wider mb-1.5">{t("contact.message")}</label>
+              <label className="block text-xs font-semibold text-[#6C63FF] uppercase tracking-wider mb-1.5">{t("contact.message")}</label>
               <textarea rows={5} value={form.message} required
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
                 data-testid="input-message"
-                className="w-full px-4 py-3 rounded-xl bg-[#1E293B] border border-[#334155]/60 text-[#F1F5F9] text-sm
-                  placeholder:text-[#334155] focus:outline-none focus:border-[#6366F1]/60 focus:shadow-lg focus:shadow-indigo-500/10
-                  transition-all duration-300 resize-none" />
+                className={`w-full px-4 py-3 rounded-xl border text-sm
+                  focus:outline-none focus:border-[#6C63FF]/60 focus:shadow-lg focus:shadow-[#6C63FF]/10
+                  transition-all duration-300 resize-none
+                  ${isDark ? "bg-[#12121A] border-[#1E1E2E]/60 text-[#F0F0F5] placeholder:text-[#1E1E2E]" : "bg-white border-[#E2E2F0]/80 text-[#1A1A2E] placeholder:text-[#E2E2F0]"}`} />
             </div>
-            {status === "success" && <p className="text-green-400 text-sm font-medium">{successMsg}</p>}
+            {status === "success" && <p className="text-[#3DDC84] text-sm font-medium">{successMsg}</p>}
             {status === "error" && <p className="text-red-400 text-sm font-medium">{errorMsg}</p>}
             <button type="submit" disabled={status === "sending"} data-testid="btn-send-message"
-              className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#6366F1] to-[#06B6D4] text-white font-semibold text-sm
-                hover:shadow-lg hover:shadow-indigo-500/30 hover:scale-[1.02] transition-all duration-300 disabled:opacity-60">
+              className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#6C63FF] to-[#00D4FF] text-white font-semibold text-sm
+                hover:shadow-lg hover:shadow-[#6C63FF]/30 hover:scale-[1.02] transition-all duration-300 disabled:opacity-60">
               {status === "sending" ? sending : t("contact.send")}
             </button>
           </form>
@@ -1167,13 +1219,13 @@ function FinalCTA() {
   const cta = language === "de" ? "Kontakt aufnehmen" : language === "ar" ? "تواصل معي" : "Get in Touch";
 
   return (
-    <section className="py-20 bg-gradient-to-r from-[#6366F1] to-[#06B6D4] relative overflow-hidden">
+    <section className="py-16 bg-gradient-to-r from-[#6C63FF] to-[#00D4FF] relative overflow-hidden">
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4xKSIvPjwvc3ZnPg==')] opacity-60" />
       <div className="relative max-w-4xl mx-auto px-4 sm:px-6 text-center">
         <h2 className="font-['Sora'] text-3xl md:text-4xl font-bold text-white mb-3">{title}</h2>
         <p className="text-white/80 text-lg mb-8">{sub}</p>
         <a href="#contact" onClick={(e) => { e.preventDefault(); document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }); }}
-          className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-white text-[#6366F1] font-bold text-base
+          className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-white text-[#6C63FF] font-bold text-base
             hover:shadow-2xl hover:scale-105 transition-all duration-300">
           {cta} →
         </a>
@@ -1185,7 +1237,7 @@ function FinalCTA() {
 // ─── HOME PAGE ────────────────────────────────────────────────────────────
 export default function Home() {
   return (
-    <main className="bg-[#0A0E1A]">
+    <main className="bg-background transition-colors duration-300">
       <Hero />
       <About />
       <Services />
