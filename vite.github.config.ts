@@ -32,7 +32,7 @@ export default defineConfig({
         try {
           cpSync(
             path.resolve(import.meta.dirname, "cv"),
-            ${outDir}/cv,
+            `${outDir}/cv`,
             { recursive: true }
           );
           console.log("✅ cv copied");
