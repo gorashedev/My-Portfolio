@@ -289,11 +289,11 @@ function Services() {
 
 // ─── JADWAL CARD ──────────────────────────────────────────────────────────
 function JadwalCard({
-  base, isDark, language, sectionKeys, tryDemo, viewGH, readDoc,
+  base, isDark, language, sectionKeys, tryDemo, viewGH, readDoc, featuredLabel,
 }: {
   base: string; isDark: boolean; language: string;
   sectionKeys: { problem: string; why: string; challenges: string; tech: string; keyFeatures: string };
-  tryDemo: string; viewGH: string; readDoc: string;
+  tryDemo: string; viewGH: string; readDoc: string; featuredLabel: string;
 }) {
   const problem = language === "de"
     ? "Studenten kämpfen damit, Prüfungstermine, Studienzeiten und akademischen Fortschritt auf einmal im Blick zu behalten — ohne intelligente Unterstützung."
@@ -327,6 +327,12 @@ function JadwalCard({
     <div className={`relative mb-8 p-6 md:p-8 rounded-2xl border backdrop-blur-sm transition-all duration-300
       shadow-xl hover:shadow-2xl
       ${isDark ? "bg-[#12121A]/90 border-[#6C63FF]/25 shadow-[#6C63FF]/10 hover:shadow-[#6C63FF]/20" : "bg-white border-[#6C63FF]/20 shadow-[#6C63FF]/5 hover:shadow-[#6C63FF]/15"}`}>
+
+      {/* Featured badge */}
+      <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-gradient-to-r from-[#6C63FF] to-[#00D4FF]
+        text-white text-xs font-bold flex items-center gap-1.5">
+        <Star className="w-3 h-3" /> {featuredLabel}
+      </div>
 
       {/* Header row */}
       <div className="flex flex-col sm:flex-row items-start gap-6 mb-6">
@@ -661,6 +667,7 @@ function Projects() {
           tryDemo={tryDemo}
           viewGH={viewGH}
           readDoc={readDoc}
+          featuredLabel={featuredLabel}
         />
 
         {/* Expense Tracker */}
