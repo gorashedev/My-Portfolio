@@ -1347,31 +1347,42 @@ function Contact() {
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            {[
-              { key: "name", type: "text", labelKey: "contact.name" },
-              { key: "email", type: "email", labelKey: "contact.email" },
-              { key: "subject", type: "text", labelKey: "contact.subject" },
-            ].map(({ key, type, labelKey }) => (
+            {([
+              {
+                key: "name", type: "text", labelKey: "contact.name",
+                placeholder: language === "ar" ? "مثال: أحمد محمد" : language === "de" ? "z.B., Max Mustermann" : "e.g., John Doe",
+              },
+              {
+                key: "email", type: "email", labelKey: "contact.email",
+                placeholder: "example@email.com",
+              },
+              {
+                key: "subject", type: "text", labelKey: "contact.subject",
+                placeholder: language === "ar" ? "مثال: استفسار عن مشروع" : language === "de" ? "z.B., Projektanfrage" : "e.g., Project Inquiry",
+              },
+            ] as { key: string; type: string; labelKey: string; placeholder: string }[]).map(({ key, type, labelKey, placeholder }) => (
               <div key={key}>
                 <label className="block text-xs font-semibold text-[#6C63FF] uppercase tracking-wider mb-1.5">{t(labelKey)}</label>
                 <input type={type} value={(form as Record<string, string>)[key]} required
+                  placeholder={placeholder}
                   onChange={(e) => setForm({ ...form, [key]: e.target.value })}
                   data-testid={`input-${key}`}
                   className={`w-full px-4 py-3 rounded-xl border text-sm
                     focus:outline-none focus:border-[#6C63FF]/60 focus:shadow-lg focus:shadow-[#6C63FF]/10
                     transition-all duration-300
-                    ${isDark ? "bg-[#12121A] border-[#1E1E2E]/60 text-[#F0F0F5] placeholder:text-[#1E1E2E]" : "bg-white border-[#E2E2F0]/80 text-[#1A1A2E] placeholder:text-[#E2E2F0]"}`} />
+                    ${isDark ? "bg-[#12121A] border-[#1E1E2E]/60 text-[#F0F0F5] placeholder:text-[#3A3A5C]" : "bg-white border-[#E2E2F0]/80 text-[#1A1A2E] placeholder:text-[#A0AABB]"}`} />
               </div>
             ))}
             <div>
               <label className="block text-xs font-semibold text-[#6C63FF] uppercase tracking-wider mb-1.5">{t("contact.message")}</label>
               <textarea rows={5} value={form.message} required
+                placeholder={language === "ar" ? "اكتب رسالتك هنا..." : language === "de" ? "Schreiben Sie Ihre Nachricht hier..." : "Write your message here..."}
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
                 data-testid="input-message"
                 className={`w-full px-4 py-3 rounded-xl border text-sm
                   focus:outline-none focus:border-[#6C63FF]/60 focus:shadow-lg focus:shadow-[#6C63FF]/10
                   transition-all duration-300 resize-none
-                  ${isDark ? "bg-[#12121A] border-[#1E1E2E]/60 text-[#F0F0F5] placeholder:text-[#1E1E2E]" : "bg-white border-[#E2E2F0]/80 text-[#1A1A2E] placeholder:text-[#E2E2F0]"}`} />
+                  ${isDark ? "bg-[#12121A] border-[#1E1E2E]/60 text-[#F0F0F5] placeholder:text-[#3A3A5C]" : "bg-white border-[#E2E2F0]/80 text-[#1A1A2E] placeholder:text-[#A0AABB]"}`} />
             </div>
             {status === "success" && <p className="text-[#3DDC84] text-sm font-medium">{successMsg}</p>}
             {status === "error" && <p className="text-red-400 text-sm font-medium">{errorMsg}</p>}
