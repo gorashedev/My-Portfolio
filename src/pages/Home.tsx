@@ -418,7 +418,7 @@ function JadwalCard({
 
       {/* Links */}
       <div className="flex flex-wrap gap-3">
-        <a href="https://github.com/gorashedev/jadwal" target="_blank" rel="noopener noreferrer"
+        <a href="https://gorashedev.github.io/jadwal/" target="_blank" rel="noopener noreferrer"
           data-testid="btn-jadwal-demo"
           className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#6C63FF] to-[#8B5CF6]
             text-white font-semibold text-sm hover:shadow-lg hover:shadow-[#6C63FF]/30 hover:scale-105 transition-all duration-300">
