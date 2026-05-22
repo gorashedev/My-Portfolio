@@ -28,8 +28,8 @@ export function Footer() {
 
         <div className="flex items-center gap-3">
           {[
-            { href: "https://github.com/qurashi512", icon: Github, label: "GitHub" },
-            { href: "https://linkedin.com/in/qurashi512", icon: Linkedin, label: "LinkedIn" },
+            { href: "https://github.com/gorashedev", icon: Github, label: "GitHub" },
+            { href: "https://linkedin.com/in/gorashedev", icon: Linkedin, label: "LinkedIn" },
             { href: "mailto:gorashe.suliman@outlook.com", icon: Mail, label: "Email" },
           ].map(({ href, icon: Icon, label }) => (
             <a key={label} href={href} target={href.startsWith("http") ? "_blank" : undefined}
