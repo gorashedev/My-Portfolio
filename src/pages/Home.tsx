@@ -137,8 +137,8 @@ function Hero() {
         {/* Socials */}
         <div className="flex items-center justify-center gap-4">
           {[
-            { href: "https://github.com/gorashedev", icon: Github, label: "GitHub" },
-            { href: "https://linkedin.com/in/gorashedev", icon: Linkedin, label: "LinkedIn" },
+            { href: "https://github.com/qurashi512", icon: Github, label: "GitHub" },
+            { href: "https://linkedin.com/in/qurashi512", icon: Linkedin, label: "LinkedIn" },
             { href: "mailto:gorashe.suliman@outlook.com", icon: Mail, label: "Email" },
           ].map(({ href, icon: Icon, label }) => (
             <a key={label} href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer"
@@ -287,20 +287,165 @@ function Services() {
   );
 }
 
+// ─── JADWAL CARD ──────────────────────────────────────────────────────────
+function JadwalCard({
+  base, isDark, language, sectionKeys, tryDemo, viewGH, readDoc,
+}: {
+  base: string; isDark: boolean; language: string;
+  sectionKeys: { problem: string; why: string; challenges: string; tech: string; keyFeatures: string };
+  tryDemo: string; viewGH: string; readDoc: string;
+}) {
+  const problem = language === "de"
+    ? "Studenten kämpfen damit, Prüfungstermine, Studienzeiten und akademischen Fortschritt auf einmal im Blick zu behalten — ohne intelligente Unterstützung."
+    : language === "ar"
+    ? "يعاني الطلاب من صعوبة تتبع مواعيد الامتحانات وأوقات الدراسة والتقدم الأكاديمي دفعةً واحدة — دون أي مساعد ذكي."
+    : "Students struggle to keep track of exam dates, study hours, and academic progress all at once — without any intelligent assistance to guide them.";
+
+  const why = language === "de"
+    ? "Ich wollte eine App bauen, die mir während des Studiums wirklich hilft — mit KI-Unterstützung, die Studienpläne personalisiert und erklärt, nicht nur erinnert."
+    : language === "ar"
+    ? "أردت بناء تطبيق يساعدني فعلاً أثناء الدراسة — بمساعدة ذكاء اصطناعي يُخصّص خطط المذاكرة ويشرح المواد، لا يكتفي بالتذكير."
+    : "I wanted to build an app that actually helps during study — with AI support that personalizes study plans and explains content, not just reminds.";
+
+  const challenges = language === "de"
+    ? "Integration des Gemini-KI-Modells für kontextbewusste Studientipps, OCR-basiertes Extrahieren von Prüfungsplänen aus Fotos, RTL-Unterstützung für Arabisch."
+    : language === "ar"
+    ? "دمج نموذج Gemini AI لتقديم نصائح دراسية واعية بالسياق، استخراج مواعيد الامتحانات من الصور عبر OCR، دعم RTL الكامل للعربية."
+    : "Integrating the Gemini AI model for context-aware study tips, OCR-based exam schedule extraction from photos, and full RTL support for Arabic.";
+
+  const features = language === "de"
+    ? ["Intelligenter Wochenplan mit Fortschrittsanzeige", "KI-Chatbot (Gemini) für Studientipps & Erklärungen", "Prüfungsscan via Foto & OCR", "Analyse-Dashboard & Motivations-Badges", "Vollständige Arabisch/Englisch-Unterstützung mit RTL", "Dark & Light Theme mit moderner UI"]
+    : language === "ar"
+    ? ["جدول أسبوعي ذكي مع تتبع الإنجاز", "مساعد AI (Gemini) لشرح المواد وتقديم النصائح", "مسح جدول الامتحانات عبر الكاميرا والـ OCR", "لوحة تحليلات وشارات تحفيزية", "دعم كامل للعربية والإنجليزية مع RTL", "وضع داكن وفاتح بواجهة عصرية"]
+    : ["Smart weekly schedule with completion tracking", "AI chatbot (Gemini) for study tips & explanations", "Exam scan from photos via OCR", "Analytics dashboard & motivational badges", "Full Arabic & English with RTL support", "Dark & Light theme with modern UI"];
+
+  const tech = ["Kotlin", "Jetpack Compose", "Gemini AI", "ML Kit (OCR)", "Room DB", "Hilt (DI)", "Retrofit", "Material You"];
+
+  const date = language === "de" ? "Android-App · Mai 2026" : language === "ar" ? "تطبيق أندرويد · مايو 2026" : "Android Application · May 2026";
+
+  return (
+    <div className={`relative mb-8 p-6 md:p-8 rounded-2xl border backdrop-blur-sm transition-all duration-300
+      shadow-xl hover:shadow-2xl
+      ${isDark ? "bg-[#12121A]/90 border-[#6C63FF]/25 shadow-[#6C63FF]/10 hover:shadow-[#6C63FF]/20" : "bg-white border-[#6C63FF]/20 shadow-[#6C63FF]/5 hover:shadow-[#6C63FF]/15"}`}>
+
+      {/* Header row */}
+      <div className="flex flex-col sm:flex-row items-start gap-6 mb-6">
+        <div className="flex items-center gap-3">
+          <img
+            src={`${base}images/jadwal-icon.webp`}
+            alt="Jadwal Icon"
+            className="w-14 h-14 rounded-2xl object-cover shadow-lg shadow-[#6C63FF]/25 flex-shrink-0"
+            onError={(e) => {
+              const img = e.target as HTMLImageElement;
+              const fallback = document.createElement('div');
+              fallback.className = 'w-14 h-14 rounded-2xl bg-gradient-to-br from-[#6C63FF] to-[#8B5CF6] flex items-center justify-center text-2xl shadow-lg flex-shrink-0';
+              fallback.textContent = '📅';
+              img.parentNode?.replaceChild(fallback, img);
+            }}
+          />
+          <div>
+            <h3 className={`font-['Sora'] text-2xl font-bold ${isDark ? "text-[#F0F0F5]" : "text-[#1A1A2E]"}`}>Jadwal</h3>
+            <p className={`text-sm ${isDark ? "text-[#8B8B9E]" : "text-[#64748B]"}`}>{date}</p>
+          </div>
+        </div>
+
+        {/* Screenshots */}
+        <ProjectScreenshots shots={[
+          { src: `${base}images/jadwal-home.png`, alt: "Jadwal Home" },
+          { src: `${base}images/jadwal-ai.png`,   alt: "Jadwal AI" },
+        ]} />
+      </div>
+
+      {/* Problem / Why / Challenges */}
+      <div className="grid md:grid-cols-3 gap-6 mb-6">
+        {[
+          { label: sectionKeys.problem,    text: problem },
+          { label: sectionKeys.why,        text: why },
+          { label: sectionKeys.challenges, text: challenges },
+        ].map(({ label, text }) => (
+          <div key={label} className={`p-4 rounded-xl border ${isDark ? "bg-[#0A0A0F]/60 border-[#1E1E2E]/60" : "bg-[#F4F4F8] border-[#E2E2F0]/80"}`}>
+            <p className="text-xs font-bold text-[#6C63FF] uppercase tracking-wider mb-2">{label}</p>
+            <p className={`text-sm leading-relaxed ${isDark ? "text-[#8B8B9E]" : "text-[#64748B]"}`}>{text}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Key Features */}
+      <div className="mb-6">
+        <p className="text-xs font-bold text-[#6C63FF] uppercase tracking-wider mb-3">{sectionKeys.keyFeatures}</p>
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-2">
+          {features.map((f) => (
+            <div key={f} className={`flex items-center gap-2 text-sm ${isDark ? "text-[#8B8B9E]" : "text-[#64748B]"}`}>
+              <CheckCircle2 className="w-4 h-4 text-[#6C63FF] flex-shrink-0" /> {f}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Stats */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+        {[
+          { n: "6", l: language === "ar" ? "ميزات أساسية" : language === "de" ? "Kernfunktionen" : "Core Features" },
+          { n: "8", l: language === "ar" ? "تقنيات" : language === "de" ? "Technologien" : "Tech Stack" },
+          { n: "2", l: language === "ar" ? "لغات" : language === "de" ? "Sprachen" : "Languages" },
+          { n: "AI", l: language === "ar" ? "مدعوم بـ" : language === "de" ? "Powered by" : "Powered by" },
+        ].map(({ n, l }) => (
+          <div key={l} className={`text-center p-3 rounded-xl border ${isDark ? "bg-[#0A0A0F]/60 border-[#1E1E2E]/60" : "bg-[#F4F4F8] border-[#E2E2F0]/80"}`}>
+            <p className="font-['Sora'] text-base font-bold text-[#6C63FF] break-words">{n}</p>
+            <p className={`text-xs mt-0.5 leading-tight ${isDark ? "text-[#8B8B9E]" : "text-[#64748B]"}`}>{l}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Tech Stack */}
+      <div className="mb-6">
+        <p className="text-xs font-bold text-[#6C63FF] uppercase tracking-wider mb-3">{sectionKeys.tech}</p>
+        <div className="flex flex-wrap gap-2">
+          {tech.map((t) => (
+            <span key={t} className={`px-3 py-1 rounded-lg border font-['JetBrains_Mono',monospace] text-xs
+              ${isDark ? "bg-[#0A0A0F] border-[#1E1E2E]/60 text-[#8B8B9E]" : "bg-[#F4F4F8] border-[#E2E2F0]/80 text-[#64748B]"}`}>
+              {t}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Links */}
+      <div className="flex flex-wrap gap-3">
+        <a href="https://github.com/gorashedev/jadwal" target="_blank" rel="noopener noreferrer"
+          data-testid="btn-jadwal-demo"
+          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#6C63FF] to-[#8B5CF6]
+            text-white font-semibold text-sm hover:shadow-lg hover:shadow-[#6C63FF]/30 hover:scale-105 transition-all duration-300">
+          <ExternalLink className="w-4 h-4" /> {tryDemo}
+        </a>
+        <a href="https://github.com/gorashedev/jadwal" target="_blank" rel="noopener noreferrer"
+          data-testid="btn-jadwal-github"
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-xl border font-semibold text-sm transition-all duration-300
+            hover:border-[#6C63FF]/50 hover:bg-[#6C63FF]/5
+            ${isDark ? "border-[#1E1E2E] text-[#F0F0F5]" : "border-[#E2E2F0] text-[#1A1A2E]"}`}>
+          <Github className="w-4 h-4" /> {viewGH}
+        </a>
+        <a href="https://github.com/gorashedev/jadwal/blob/main/README.md" target="_blank" rel="noopener noreferrer"
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-xl border font-semibold text-sm transition-all duration-300
+            hover:border-[#6C63FF]/30 hover:bg-[#6C63FF]/5
+            ${isDark ? "border-[#1E1E2E] text-[#8B8B9E]" : "border-[#E2E2F0] text-[#64748B]"}`}>
+          <ExternalLink className="w-4 h-4" /> {readDoc}
+        </a>
+      </div>
+    </div>
+  );
+}
+
 // ─── PROJECTS ─────────────────────────────────────────────────────────────
-function ProjectScreenshots({ base }: { base: string }) {
+function ProjectScreenshots({ shots }: { shots: { src: string; alt: string }[] }) {
   const [lightbox, setLightbox] = useState<string | null>(null);
-  const shots = [
-    { src: `${base}images/sorttube-home.png`,     alt: "SortTube Home" },
-    { src: `${base}images/sorttube-channels.png`, alt: "SortTube Channels" },
-  ];
   return (
     <>
       <div className="flex gap-2 ms-auto">
         {shots.map(({ src, alt }) => (
           <button key={alt} onClick={() => setLightbox(src)}
             className="w-24 h-16 rounded-lg overflow-hidden border border-[#334155]/40
-              hover:border-[#6366F1]/60 hover:scale-105 transition-all duration-200 cursor-zoom-in">
+              hover:border-[#6C63FF]/60 hover:scale-105 transition-all duration-200 cursor-zoom-in">
             <img src={src} alt={alt} loading="lazy" className="w-full h-full object-cover"
               onError={(e) => { (e.target as HTMLImageElement).parentElement!.style.display = "none"; }} />
           </button>
@@ -426,7 +571,10 @@ function Projects() {
             </div>
             
                         {/* Screenshots */}
-            <ProjectScreenshots base={base} />
+            <ProjectScreenshots shots={[
+              { src: `${base}images/sorttube-home.png`,     alt: "SortTube Home" },
+              { src: `${base}images/sorttube-channels.png`, alt: "SortTube Channels" },
+            ]} />
           </div>
 
           <div className="grid md:grid-cols-3 gap-6 mb-6">
@@ -490,19 +638,30 @@ function Projects() {
                 text-white font-semibold text-sm hover:shadow-lg hover:shadow-indigo-500/30 hover:scale-105 transition-all duration-300">
               <ExternalLink className="w-4 h-4" /> {tryDemo}
             </a>
-            <a href="https://github.com/gorashedev/SortTube" target="_blank" rel="noopener noreferrer"
+            <a href="https://github.com/qurashi512/SortTube" target="_blank" rel="noopener noreferrer"
               data-testid="btn-sorttube-github"
               className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-[#334155] text-[#F1F5F9] font-semibold text-sm
                 hover:border-[#6366F1]/50 hover:bg-white/5 transition-all duration-300">
               <Github className="w-4 h-4" /> {viewGH}
             </a>
-            <a href="https://github.com/gorashedev/SortTube/blob/main/README.md" target="_blank" rel="noopener noreferrer"
+            <a href="https://github.com/qurashi512/SortTube/blob/main/README.md" target="_blank" rel="noopener noreferrer"
               className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-[#334155] text-[#94A3B8] font-semibold text-sm
                 hover:border-[#334155]/80 hover:bg-white/5 transition-all duration-300">
               <ExternalLink className="w-4 h-4" /> {readDoc}
             </a>
           </div>
         </div>
+
+        {/* ── Jadwal ────────────────────────────────────────────── */}
+        <JadwalCard
+          base={base}
+          isDark={isDark}
+          language={language}
+          sectionKeys={sectionKeys}
+          tryDemo={tryDemo}
+          viewGH={viewGH}
+          readDoc={readDoc}
+        />
 
         {/* Expense Tracker */}
         <div className={`p-6 md:p-8 rounded-2xl border backdrop-blur-sm transition-all duration-300 hover:shadow-xl
@@ -534,7 +693,7 @@ function Projects() {
                 ${isDark ? "bg-[#0A0A0F] border-[#1E1E2E]/60 text-[#8B8B9E]" : "bg-[#F4F4F8] border-[#E2E2F0]/80 text-[#64748B]"}`}>{t}</span>
             ))}
           </div>
-          <a href="https://github.com/gorashedev/Expense-Tracker" target="_blank" rel="noopener noreferrer"
+          <a href="https://github.com/qurashi512/Expense-Tracker" target="_blank" rel="noopener noreferrer"
             data-testid="btn-expense-github"
             className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border font-semibold text-sm transition-all duration-300
               hover:border-[#6C63FF]/50 hover:bg-[#6C63FF]/5
@@ -691,8 +850,8 @@ function GitHubStatCard() {
 
   useEffect(() => {
     Promise.all([
-      fetch("https://api.github.com/users/gorashedev").then((r) => r.json()),
-      fetch("https://api.github.com/users/gorashedev/repos?per_page=100").then((r) => r.json()),
+      fetch("https://api.github.com/users/qurashi512").then((r) => r.json()),
+      fetch("https://api.github.com/users/qurashi512/repos?per_page=100").then((r) => r.json()),
     ])
       .then(([user, repos]) => {
         const stars = Array.isArray(repos)
@@ -731,7 +890,7 @@ function GitHubStatCard() {
           ))}
         </div>
       ) : (
-        <a href="https://github.com/gorashedev" target="_blank" rel="noopener noreferrer"
+        <a href="https://github.com/qurashi512" target="_blank" rel="noopener noreferrer"
           className="flex items-center justify-center h-28 text-[#94A3B8] text-sm hover:text-[#6366F1] transition-colors">
           View on GitHub →
         </a>
@@ -753,7 +912,7 @@ function TopLanguagesCard() {
   };
 
   useEffect(() => {
-    fetch("https://api.github.com/users/gorashedev/repos?per_page=100")
+    fetch("https://api.github.com/users/qurashi512/repos?per_page=100")
       .then((r) => r.json())
       .then((repos) => {
         if (!Array.isArray(repos)) return;
@@ -799,7 +958,7 @@ function TopLanguagesCard() {
           ))}
         </div>
       ) : (
-        <a href="https://github.com/gorashe-dev" target="_blank" rel="noopener noreferrer"
+        <a href="https://github.com/qurashi512" target="_blank" rel="noopener noreferrer"
           className="flex items-center justify-center h-28 text-[#94A3B8] text-sm hover:text-[#6366F1] transition-colors">
           View on GitHub →
         </a>
@@ -813,7 +972,7 @@ function GitHubActivity() {
   const { t, language } = useLanguage();
   const { theme } = useTheme();
   const isDark = theme === "dark";
-  const username = "gorashedev";
+  const username = "qurashi512";
   const [stats, setStats] = useState<{ repos: number; stars: number; followers: number; following: number } | null>(null);
   const [langs, setLangs] = useState<{ name: string; pct: number; color: string }[]>([]);
   const COLORS = ["#6C63FF","#00D4FF","#A855F7","#F59E0B","#3DDC84","#EF4444","#F97316","#EC4899"];
@@ -1133,8 +1292,8 @@ function Contact() {
             {/* Social */}
             <div className="flex flex-col gap-3 mb-8">
               {[
-                { label: "GitHub", sub: "gorashedev", href: "https://github.com/gorashedev", icon: Github },
-                { label: "LinkedIn", sub: "gorashedev", href: "https://linkedin.com/in/gorashedev", icon: Linkedin },
+                { label: "GitHub", sub: "@qurashi512", href: "https://github.com/qurashi512", icon: Github },
+                { label: "LinkedIn", sub: "qurashi512", href: "https://linkedin.com/in/qurashi512", icon: Linkedin },
               ].map(({ label, sub, href, icon: Icon }) => (
                 <a key={label} href={href} target="_blank" rel="noopener noreferrer"
                   className={`flex items-center gap-4 p-4 rounded-xl border backdrop-blur-sm
