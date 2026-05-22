@@ -958,8 +958,8 @@ function TopLanguagesCard() {
           ))}
         </div>
       ) : (
-        <a href="https://github.com/qurashi512" target="_blank" rel="noopener noreferrer"
-          className="flex items-center justify-center h-28 text-[#94A3B8] text-sm hover:text-[#6366F1] transition-colors">
+        <a href="https://github.com/gorashedev" target="_blank" rel="noopener noreferrer"
+          className="flex items-center justify-center h-28 text-[#94A3B8] text-sm hover:text-[#6C63FF] transition-colors">
           View on GitHub →
         </a>
       )}
@@ -972,7 +972,7 @@ function GitHubActivity() {
   const { t, language } = useLanguage();
   const { theme } = useTheme();
   const isDark = theme === "dark";
-  const username = "qurashi512";
+  const username = "gorashedev";
   const [stats, setStats] = useState<{ repos: number; stars: number; followers: number; following: number } | null>(null);
   const [langs, setLangs] = useState<{ name: string; pct: number; color: string }[]>([]);
   const COLORS = ["#6C63FF","#00D4FF","#A855F7","#F59E0B","#3DDC84","#EF4444","#F97316","#EC4899"];
