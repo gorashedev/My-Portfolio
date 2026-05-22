@@ -177,7 +177,7 @@ function About() {
   const subtitle = language === "de" ? "Von Medizin zu Technologie" : language === "ar" ? "من الطب إلى التقنية" : "From Medicine to Technology";
 
   const infoCards = [
-    { icon: "📍", label: language === "ar" ? "الموقع" : language === "de" ? "Standort" : "Location", value: "Cairo, Egypt → Germany 🇩🇪" },
+    { icon: "📍", label: language === "ar" ? "الموقع" : language === "de" ? "Standort" : "Location", value: language === "ar" ? "القاهرة، مصر ← ألمانيا 🇩🇪" : language === "de" ? "Kairo, Ägypten → Deutschland 🇩🇪" : "Cairo, Egypt → Germany 🇩🇪" },
     { icon: "🗣️", label: language === "ar" ? "اللغات" : language === "de" ? "Sprachen" : "Languages", value: language === "ar" ? "العربية (أصيلة) · الإنجليزية (B1) · الألمانية (B2)" : language === "de" ? "Arabisch (Muttersp.) · Englisch (B1) · Deutsch (B2)" : "Arabic (Native) · English (B1) · German (B2)" },
     { icon: "🎓", label: language === "ar" ? "التعليم" : language === "de" ? "Bildung" : "Education", value: language === "ar" ? "جامعة حلوان (جامعة العاصمة)" : "Helwan University (Capital University)" },
   ];
@@ -1287,7 +1287,7 @@ function Contact() {
               {[
                 { icon: Mail,      label: "Email",    labelAr: "البريد",   labelDe: "E-Mail",   value: "gorashe.suliman@outlook.com", href: "mailto:gorashe.suliman@outlook.com" },
                 { icon: Phone,     label: "Phone",    labelAr: "الهاتف",   labelDe: "Telefon",  value: "+20 101 073 6525",             href: "tel:+201010736525" },
-                { icon: MapPin,    label: "Location", labelAr: "الموقع",   labelDe: "Standort", value: "Cairo, Egypt → Germany 🇩🇪",   href: null },
+                { icon: MapPin,    label: "Location", labelAr: "الموقع",   labelDe: "Standort", value: language === "ar" ? "القاهرة، مصر ← ألمانيا 🇩🇪" : language === "de" ? "Kairo, Ägypten → Deutschland 🇩🇪" : "Cairo, Egypt → Germany 🇩🇪",   href: null },
               ].map(({ icon: Icon, label, labelAr, labelDe, value, href }) => (
                <div key={label} className={`flex items-center gap-4 p-4 rounded-xl border backdrop-blur-sm
                  ${isDark ? "bg-[#12121A]/80 border-[#1E1E2E]/60" : "bg-white border-[#E2E2F0]/80 shadow-sm"}`}>
