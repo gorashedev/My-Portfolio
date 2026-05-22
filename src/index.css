@@ -282,3 +282,12 @@ html.light .theme-text     { color: #1A1A2E; }
 
 html.dark  .theme-muted    { color: #8B8B9E; }
 html.light .theme-muted    { color: #64748B; }
+
+/* ─── Scroll button icon swap animation ───────────────────────────────────── */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fade-in-up 0.2s ease-out both;
+}
