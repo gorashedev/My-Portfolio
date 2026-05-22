@@ -646,8 +646,9 @@ function Projects() {
             </a>
             <a href="https://github.com/gorashedev/SortTube" target="_blank" rel="noopener noreferrer"
               data-testid="btn-sorttube-github"
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-[#334155] text-[#F1F5F9] font-semibold text-sm
-                hover:border-[#6366F1]/50 hover:bg-white/5 transition-all duration-300">
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl border font-semibold text-sm transition-all duration-300
+                hover:border-[#6C63FF]/50 hover:bg-[#6C63FF]/5
+                ${isDark ? "border-[#1E1E2E] text-[#F0F0F5]" : "border-[#E2E2F0] text-[#1A1A2E]"}`}>
               <Github className="w-4 h-4" /> {viewGH}
             </a>
             <a href="https://github.com/gorashedev/SortTube/blob/main/README.md" target="_blank" rel="noopener noreferrer"

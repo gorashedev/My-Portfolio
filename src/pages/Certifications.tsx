@@ -1,11 +1,15 @@
 import { Link } from "wouter";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useTheme } from "@/contexts/ThemeContext";
 import { ExternalLink, ArrowLeft } from "lucide-react";
 import { useLocation } from "wouter";
 
 export default function Certifications() {
   const [, navigate] = useLocation();
   const { language } = useLanguage();
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+
   const title = language === "de" ? "Alle Zertifikate" : language === "ar" ? "جميع الشهادات" : "All Certifications";
   const backLabel = language === "de" ? "Zurück" : language === "ar" ? "رجوع" : "Back";
   const verifyLabel = language === "de" ? "Zertifikat verifizieren" : language === "ar" ? "التحقق من الشهادة" : "Verify Certificate";
@@ -93,21 +97,22 @@ export default function Certifications() {
   ];
 
   return (
-    <main className="min-h-screen bg-[#0A0E1A] pt-28 pb-20">
+    <main className={`min-h-screen pt-28 pb-20 transition-colors duration-300 ${isDark ? "bg-[#0A0A0F]" : "bg-[#FAFAFA]"}`}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Back */}
         <button
           onClick={() => { sessionStorage.setItem("scrollTarget", "certifications"); navigate("/"); }}
-          className="inline-flex items-center gap-2 text-[#94A3B8] hover:text-[#F1F5F9] text-sm font-medium mb-8 transition-colors"
+          className={`inline-flex items-center gap-2 text-sm font-medium mb-8 transition-colors
+            ${isDark ? "text-[#8B8B9E] hover:text-[#F0F0F5]" : "text-[#64748B] hover:text-[#1A1A2E]"}`}
         >
           <ArrowLeft className="w-4 h-4" /> {backLabel}
         </button>
 
         {/* Header */}
         <div className="text-center mb-14">
-          <h1 className="font-['Sora'] text-4xl md:text-5xl font-bold text-[#F1F5F9] mb-3">{title}</h1>
-          <div className="w-16 h-1 bg-gradient-to-r from-[#6366F1] to-[#06B6D4] rounded-full mx-auto mb-4" />
-          <p className="text-[#94A3B8] text-sm">
+          <h1 className={`font-['Sora'] text-4xl md:text-5xl font-bold mb-3 ${isDark ? "text-[#F0F0F5]" : "text-[#1A1A2E]"}`}>{title}</h1>
+          <div className="w-16 h-1 bg-gradient-to-r from-[#6C63FF] to-[#00D4FF] rounded-full mx-auto mb-4" />
+          <p className={`text-sm ${isDark ? "text-[#8B8B9E]" : "text-[#64748B]"}`}>
             {language === "de" ? `${certs.length} Zertifikate · Verifiziert & aktuell` : language === "ar" ? `${certs.length} شهادات · موثقة ومحدثة` : `${certs.length} Certificates · Verified & Current`}
           </p>
         </div>
@@ -115,39 +120,50 @@ export default function Certifications() {
         {/* Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {certs.map((c, i) => (
-            <div key={i} className={`relative p-6 rounded-2xl bg-[#1E293B]/60 border transition-all duration-300 flex flex-col
+            <div key={i} className={`relative p-6 rounded-2xl border transition-all duration-300 flex flex-col
               hover:shadow-xl hover:-translate-y-1
-              ${c.featured ? "border-[#6366F1]/40 hover:border-[#6366F1]/70 hover:shadow-indigo-500/15" : "border-[#334155]/40 hover:border-[#334155]/70"}`}>
+              ${isDark
+                ? c.featured
+                  ? "bg-[#12121A]/80 border-[#6C63FF]/30 hover:border-[#6C63FF]/60 hover:shadow-[#6C63FF]/15"
+                  : "bg-[#12121A]/80 border-[#1E1E2E]/60 hover:border-[#1E1E2E]"
+                : c.featured
+                  ? "bg-white border-[#6C63FF]/25 hover:border-[#6C63FF]/50 hover:shadow-[#6C63FF]/10 shadow-sm"
+                  : "bg-white border-[#E2E2F0]/80 hover:border-[#E2E2F0] shadow-sm"
+              }`}>
               {c.featured && (
-                <div className="absolute top-4 right-4 px-2 py-0.5 rounded-full bg-[#6366F1]/20 border border-[#6366F1]/40 text-[#818CF8] text-[10px] font-bold uppercase tracking-wider">
+                <div className={`absolute top-4 right-4 px-2 py-0.5 rounded-full border text-[10px] font-bold uppercase tracking-wider
+                  ${isDark ? "bg-[#6C63FF]/20 border-[#6C63FF]/40 text-[#A89EFF]" : "bg-[#6C63FF]/10 border-[#6C63FF]/30 text-[#6C63FF]"}`}>
                   Top
                 </div>
               )}
 
               {/* Logo */}
-              <div className="h-10 flex items-center mb-5">
+              <div className={`h-10 flex items-center mb-5 ${!isDark ? "p-1" : ""}`}>
                 {c.logo ? (
                   <img src={c.logo} alt={c.issuer} className="max-h-8 max-w-[120px] object-contain" loading="lazy"
                     onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
                 ) : (
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#6366F1] to-[#06B6D4] flex items-center justify-center text-white text-xs font-bold">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#6C63FF] to-[#00D4FF] flex items-center justify-center text-white text-xs font-bold">
                     {c.issuer.slice(0, 2).toUpperCase()}
                   </div>
                 )}
               </div>
 
-              <h3 className="font-['Sora'] text-sm font-semibold text-[#F1F5F9] mb-1 leading-snug flex-1">{c.title}</h3>
-              <p className="text-[#94A3B8] text-xs mb-1">{c.issuer}</p>
-              <p className="text-[#6366F1] text-xs font-medium mb-4">{c.date}</p>
+              <h3 className={`font-['Sora'] text-sm font-semibold mb-1 leading-snug flex-1 ${isDark ? "text-[#F0F0F5]" : "text-[#1A1A2E]"}`}>{c.title}</h3>
+              <p className={`text-xs mb-1 ${isDark ? "text-[#8B8B9E]" : "text-[#64748B]"}`}>{c.issuer}</p>
+              <p className="text-[#6C63FF] text-xs font-medium mb-4">{c.date}</p>
 
               <div className="flex flex-wrap gap-1.5 mb-5">
                 {c.skills.map((s) => (
-                  <span key={s} className="px-2 py-0.5 rounded-md bg-[#0A0E1A] border border-[#334155]/60 text-[#94A3B8] text-[10px]">{s}</span>
+                  <span key={s} className={`px-2 py-0.5 rounded-md border text-[10px]
+                    ${isDark ? "bg-[#0A0A0F] border-[#1E1E2E]/60 text-[#8B8B9E]" : "bg-[#F4F4F8] border-[#E2E2F0]/80 text-[#64748B]"}`}>
+                    {s}
+                  </span>
                 ))}
               </div>
 
               <a href={c.verify} target="_blank" rel="noopener noreferrer"
-                className="mt-auto flex items-center gap-1.5 text-[#6366F1] hover:text-[#818CF8] text-xs font-medium transition-colors">
+                className="mt-auto flex items-center gap-1.5 text-[#6C63FF] hover:text-[#8B5CF6] text-xs font-medium transition-colors">
                 <ExternalLink className="w-3.5 h-3.5" /> {verifyLabel}
               </a>
             </div>
