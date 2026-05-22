@@ -985,15 +985,24 @@ function GitHubActivity() {
   const COLORS = ["#6C63FF","#00D4FF","#A855F7","#F59E0B","#3DDC84","#EF4444","#F97316","#EC4899"];
 
   useEffect(() => {
+    // Fetch user profile (repos, followers, following)
     fetch(`https://api.github.com/users/${username}`)
       .then(r => r.json())
       .then(d => setStats({ repos: d.public_repos, stars: 0, followers: d.followers, following: d.following }));
+
+    // Fetch starred repos count (the "Stars" shown on your GitHub profile)
+    fetch(`https://api.github.com/users/${username}/starred?per_page=100`)
+      .then(r => r.json())
+      .then((starred: unknown[]) => {
+        if (!Array.isArray(starred)) return;
+        setStats(prev => prev ? { ...prev, stars: starred.length } : prev);
+      });
+
+    // Fetch owned repos for Top Languages only
     fetch(`https://api.github.com/users/${username}/repos?per_page=100&type=owner&sort=created`)
       .then(r => r.json())
-      .then((repos: { language: string | null; stargazers_count: number }[]) => {
+      .then((repos: { language: string | null }[]) => {
         if (!Array.isArray(repos)) return;
-        const starTotal = repos.reduce((s, r) => s + (r.stargazers_count || 0), 0);
-        setStats(prev => prev ? { ...prev, stars: starTotal } : prev);
         const counts: Record<string, number> = {};
         repos.forEach(r => { if (r.language) counts[r.language] = (counts[r.language] || 0) + 1; });
         const total = Object.values(counts).reduce((a, b) => a + b, 0);
