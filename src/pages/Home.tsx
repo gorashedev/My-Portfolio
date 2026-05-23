@@ -4,7 +4,7 @@ import { Link } from "wouter";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { Github, Linkedin, Mail, Phone, MapPin, ExternalLink, ChevronDown, Star, Code2, Globe, HardDrive, CheckCircle2, Quote } from "lucide-react";
-
+  
 // ─── Typewriter ────────────────────────────────────────────────────────────
 function Typewriter({ words }: { words: string[] }) {
   const [idx, setIdx] = useState(0);
